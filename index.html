@@ -6,10 +6,11 @@
     <title>Lunatic Community - Recursos Minecraft</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
-        /* ========================================
-           RESET Y ESTILOS GLOBALES PREMIUM
-           ======================================== */
         * {
             margin: 0;
             padding: 0;
@@ -27,14 +28,11 @@
             --text-secondary: #b8b0d0;
             --text-muted: #7a7290;
             --border-color: rgba(139, 92, 246, 0.12);
-            --shadow-glow: 0 0 60px rgba(139, 92, 246, 0.08);
             --radius: 20px;
             --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -45,9 +43,7 @@
             line-height: 1.6;
         }
 
-        /* ========================================
-           FONDO ESPACIAL PREMIUM
-           ======================================== */
+        /* ===== FONDO ESPACIAL ===== */
         .space-bg {
             position: fixed;
             top: 0;
@@ -152,23 +148,11 @@
             100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0.6; }
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(10, 10, 18, 0.5);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-light);
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(10, 10, 18, 0.5); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-        /* ========================================
-           NAVEGACIÓN PREMIUM
-           ======================================== */
+        /* ===== NAVEGACIÓN ===== */
         .navbar {
             position: sticky;
             top: 0;
@@ -255,9 +239,7 @@
         }
 
         .nav-links a:hover::before,
-        .nav-links a.active::before {
-            width: 60%;
-        }
+        .nav-links a.active::before { width: 60%; }
 
         .nav-links a:hover {
             color: var(--text-primary);
@@ -279,9 +261,7 @@
             background: rgba(88, 101, 242, 0.08);
         }
 
-        .nav-links .discord-link::before {
-            background: #5865F2;
-        }
+        .nav-links .discord-link::before { background: #5865F2; }
 
         .nav-links .auth-btn {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -312,10 +292,6 @@
             box-shadow: none;
         }
 
-        .nav-links .auth-btn.logged:hover {
-            background: rgba(139, 92, 246, 0.2);
-        }
-
         .nav-links .auth-btn.staff-mode {
             background: linear-gradient(135deg, #f39c12, #e67e22);
             box-shadow: 0 0 30px rgba(243, 156, 18, 0.3);
@@ -325,9 +301,7 @@
             box-shadow: 0 8px 40px rgba(243, 156, 18, 0.4);
         }
 
-        /* ========================================
-           CONTENEDOR PRINCIPAL
-           ======================================== */
+        /* ===== CONTENEDOR PRINCIPAL ===== */
         .main-container {
             max-width: 1280px;
             margin: 0 auto;
@@ -339,18 +313,14 @@
             animation: fadeSlideUp 0.6s ease;
         }
 
-        .page-section.active {
-            display: block;
-        }
+        .page-section.active { display: block; }
 
         @keyframes fadeSlideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ========================================
-           HERO
-           ======================================== */
+        /* ===== HERO ===== */
         .hero {
             background: var(--dark-card);
             backdrop-filter: blur(20px);
@@ -404,12 +374,9 @@
             font-size: 1.15rem;
             max-width: 600px;
             margin: 0 auto;
-            -webkit-text-fill-color: var(--text-secondary);
         }
 
-        /* ========================================
-           TÍTULOS DE SECCIÓN
-           ======================================== */
+        /* ===== SECCIONES ===== */
         .section-header {
             display: flex;
             align-items: center;
@@ -444,9 +411,7 @@
             font-weight: 500;
         }
 
-        /* ========================================
-           TARJETAS DE ARCHIVOS
-           ======================================== */
+        /* ===== TARJETAS ===== */
         .files-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -456,7 +421,6 @@
         .file-card {
             background: var(--dark-card);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border-radius: 16px;
             padding: 24px;
             border: 1px solid var(--border-color);
@@ -477,14 +441,12 @@
             transition: var(--transition);
         }
 
-        .file-card:hover::before {
-            opacity: 1;
-        }
+        .file-card:hover::before { opacity: 1; }
 
         .file-card:hover {
             transform: translateY(-8px);
             border-color: rgba(139, 92, 246, 0.2);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(139, 92, 246, 0.04);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
 
         .file-card .file-header {
@@ -498,7 +460,6 @@
             width: 52px;
             height: 52px;
             border-radius: 12px;
-            object-fit: cover;
             background: rgba(139, 92, 246, 0.06);
             flex-shrink: 0;
             display: flex;
@@ -541,7 +502,6 @@
             background: rgba(139, 92, 246, 0.08);
             color: var(--text-secondary);
             font-weight: 500;
-            letter-spacing: 0.3px;
         }
 
         .file-card .file-desc {
@@ -551,9 +511,7 @@
             margin-bottom: 16px;
         }
 
-        .file-card .file-desc strong {
-            color: var(--primary-light);
-        }
+        .file-card .file-desc strong { color: var(--primary-light); }
 
         .file-card .file-desc code {
             background: rgba(139, 92, 246, 0.06);
@@ -604,13 +562,9 @@
             transition: var(--transition);
         }
 
-        .file-card .file-footer .vt-link:hover {
-            opacity: 1;
-        }
+        .file-card .file-footer .vt-link:hover { opacity: 1; }
 
-        .file-card.draft-card {
-            border-left: 3px solid #f39c12;
-        }
+        .file-card.draft-card { border-left: 3px solid #f39c12; }
 
         .file-card.draft-card .draft-actions {
             display: flex;
@@ -649,15 +603,12 @@
             transform: translateY(-2px);
         }
 
-        /* ========================================
-           PÁGINA DE ERROR VIP
-           ======================================== */
+        /* ===== VIP ERROR ===== */
         .vip-error {
             text-align: center;
             padding: 80px 40px;
             background: var(--dark-card);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border-radius: var(--radius);
             border: 1px solid var(--border-color);
         }
@@ -699,9 +650,7 @@
             text-decoration: underline;
         }
 
-        /* ========================================
-           MODAL DE AUTH
-           ======================================== */
+        /* ===== MODALES ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -710,7 +659,6 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -718,9 +666,7 @@
             padding: 20px;
         }
 
-        .modal-overlay.show {
-            display: flex;
-        }
+        .modal-overlay.show { display: flex; }
 
         .modal {
             background: linear-gradient(145deg, #14102a, #1a1535);
@@ -767,9 +713,7 @@
             gap: 12px;
         }
 
-        .modal .modal-header h2 i {
-            color: var(--primary);
-        }
+        .modal .modal-header h2 i { color: var(--primary); }
 
         .modal .modal-header .close-modal {
             background: none;
@@ -789,12 +733,32 @@
 
         .modal .subtitle {
             color: var(--text-secondary);
-            margin-bottom: 28px;
+            margin-bottom: 24px;
             font-size: 0.92rem;
+            text-align: center;
         }
 
+        .modal .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .modal .divider::before,
+        .modal .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .modal .divider::before { margin-right: 16px; }
+        .modal .divider::after { margin-left: 16px; }
+
         .modal .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .modal .form-group label {
@@ -866,6 +830,45 @@
             border-color: rgba(139, 92, 246, 0.2);
         }
 
+        .modal .btn-google {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .modal .btn-google:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .modal .forgot-password {
+            display: block;
+            text-align: right;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-decoration: none;
+            margin-top: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal .forgot-password:hover {
+            color: var(--primary-light);
+        }
+
         .modal .auth-message {
             margin-top: 14px;
             padding: 10px 16px;
@@ -889,13 +892,146 @@
             border: 1px solid rgba(46, 204, 113, 0.1);
         }
 
-        /* ========================================
-           PANEL DE STAFF
-           ======================================== */
+        .modal .auth-message.info {
+            display: block;
+            background: rgba(52, 152, 219, 0.08);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.1);
+        }
+
+        /* ===== MODAL RESET ===== */
+        .modal-reset .modal { max-width: 400px; }
+
+        /* ===== RANGOS ===== */
+        .rango-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .rango-badge.vip {
+            background: rgba(241, 196, 15, 0.15);
+            color: #f1c40f;
+            border: 1px solid rgba(241, 196, 15, 0.2);
+        }
+
+        .rango-badge.super {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .rango-badge.mega {
+            background: rgba(155, 89, 182, 0.15);
+            color: #9b59b6;
+            border: 1px solid rgba(155, 89, 182, 0.2);
+        }
+
+        .rango-badge.none {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+
+        .usuarios-lista {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 12px;
+        }
+
+        .usuario-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            margin-bottom: 6px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .usuario-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .usuario-item .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .usuario-item .user-info .user-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--primary-light);
+        }
+
+        .usuario-item .user-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .usuario-item .user-actions button {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .usuario-item .user-actions .btn-vip {
+            background: rgba(241, 196, 15, 0.15);
+            color: #f1c40f;
+        }
+
+        .usuario-item .user-actions .btn-vip:hover {
+            background: rgba(241, 196, 15, 0.25);
+        }
+
+        .usuario-item .user-actions .btn-super {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+        }
+
+        .usuario-item .user-actions .btn-super:hover {
+            background: rgba(231, 76, 60, 0.25);
+        }
+
+        .usuario-item .user-actions .btn-mega {
+            background: rgba(155, 89, 182, 0.15);
+            color: #9b59b6;
+        }
+
+        .usuario-item .user-actions .btn-mega:hover {
+            background: rgba(155, 89, 182, 0.25);
+        }
+
+        .usuario-item .user-actions .btn-remove {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+        }
+
+        .usuario-item .user-actions .btn-remove:hover {
+            background: rgba(231, 76, 60, 0.2);
+        }
+
+        /* ===== PANEL STAFF ===== */
         .staff-panel {
             background: var(--dark-card);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border-radius: var(--radius);
             padding: 40px;
             border: 1px solid var(--border-color);
@@ -904,9 +1040,7 @@
             animation: fadeSlideUp 0.5s ease;
         }
 
-        .staff-panel.visible {
-            display: block;
-        }
+        .staff-panel.visible { display: block; }
 
         .staff-panel .panel-header {
             display: flex;
@@ -926,9 +1060,7 @@
             gap: 12px;
         }
 
-        .staff-panel .panel-header h2 i {
-            color: var(--primary);
-        }
+        .staff-panel .panel-header h2 i { color: var(--primary); }
 
         .staff-panel .panel-header .logout-btn {
             background: rgba(231, 76, 60, 0.1);
@@ -947,6 +1079,41 @@
             background: rgba(231, 76, 60, 0.2);
             transform: translateY(-2px);
         }
+
+        .staff-panel .staff-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .staff-panel .staff-tabs button {
+            padding: 8px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .staff-panel .staff-tabs button:hover {
+            background: rgba(139, 92, 246, 0.05);
+            color: var(--text-primary);
+        }
+
+        .staff-panel .staff-tabs button.active {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary-light);
+        }
+
+        .staff-panel .staff-tab-content { display: none; }
+        .staff-panel .staff-tab-content.active { display: block; }
 
         .staff-panel .form-group {
             margin-bottom: 18px;
@@ -982,7 +1149,28 @@
         .staff-panel .form-group input:focus,
         .staff-panel .form-group textarea:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.04);
+        }
+
+        .staff-panel .form-group input[type="file"] {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+        }
+
+        .staff-panel .form-group input[type="file"]::-webkit-file-upload-button {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .staff-panel .form-group input[type="file"]::-webkit-file-upload-button:hover {
+            background: rgba(139, 92, 246, 0.2);
         }
 
         .staff-panel .form-row {
@@ -1012,9 +1200,7 @@
             gap: 8px;
         }
 
-        .staff-panel .btn:hover {
-            transform: translateY(-3px);
-        }
+        .staff-panel .btn:hover { transform: translateY(-3px); }
 
         .staff-panel .btn-success {
             background: #2ecc71;
@@ -1108,19 +1294,14 @@
             margin-bottom: 16px;
         }
 
-        .staff-panel .drafts-section h3 i {
-            color: #f39c12;
-        }
+        .staff-panel .drafts-section h3 i { color: #f39c12; }
 
-        /* ========================================
-           DISCORD PAGE
-           ======================================== */
+        /* ===== DISCORD ===== */
         .discord-page {
             text-align: center;
             padding: 60px 40px;
             background: var(--dark-card);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border-radius: var(--radius);
             border: 1px solid var(--border-color);
         }
@@ -1174,13 +1355,9 @@
             background: #4752c4;
         }
 
-        /* ========================================
-           RESPONSIVE
-           ======================================== */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
+            .hero h1 { font-size: 2.8rem; }
         }
 
         @media (max-width: 768px) {
@@ -1217,55 +1394,39 @@
                 padding: 40px 24px;
             }
 
-            .hero h1 {
-                font-size: 2.2rem;
+            .hero h1 { font-size: 2.2rem; }
+
+            .files-grid { grid-template-columns: 1fr; }
+
+            .modal { padding: 32px 24px; }
+
+            .staff-panel { padding: 24px 20px; }
+
+            .staff-panel .form-row { grid-template-columns: 1fr; }
+
+            .section-header h2 { font-size: 1.3rem; }
+
+            .vip-error { padding: 50px 20px; }
+
+            .vip-error h2 { font-size: 1.5rem; }
+
+            .discord-page { padding: 40px 20px; }
+
+            .discord-page h2 { font-size: 1.8rem; }
+
+            .usuario-item {
+                flex-direction: column;
+                gap: 8px;
+                align-items: stretch;
             }
 
-            .files-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .modal {
-                padding: 32px 24px;
-            }
-
-            .staff-panel {
-                padding: 24px 20px;
-            }
-
-            .staff-panel .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .section-header h2 {
-                font-size: 1.3rem;
-            }
-
-            .vip-error {
-                padding: 50px 20px;
-            }
-
-            .vip-error h2 {
-                font-size: 1.5rem;
-            }
-
-            .discord-page {
-                padding: 40px 20px;
-            }
-
-            .discord-page h2 {
-                font-size: 1.8rem;
-            }
+            .usuario-item .user-actions { justify-content: center; }
         }
 
         @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
+            .hero h1 { font-size: 1.8rem; }
 
-            .navbar .logo {
-                font-size: 1.2rem;
-            }
+            .navbar .logo { font-size: 1.2rem; }
 
             .navbar .logo .logo-icon {
                 width: 32px;
@@ -1299,24 +1460,32 @@
             display: block;
         }
 
-        .empty-state p {
-            font-size: 0.95rem;
+        .empty-state p { font-size: 0.95rem; }
+
+        .file-info-display {
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border-color);
         }
+
+        .file-info-display i { color: var(--primary-light); }
     </style>
 </head>
 <body>
 
-<!-- ========================================
-     FONDO PREMIUM
-     ======================================== -->
+<!-- ===== FONDO ===== -->
 <div class="space-bg"></div>
 <div class="nebula"></div>
 <div class="stars" id="starsContainer"></div>
 <div class="particles" id="particlesContainer"></div>
 
-<!-- ========================================
-     NAVEGACIÓN
-     ======================================== -->
+<!-- ===== NAVEGACIÓN ===== -->
 <nav class="navbar" id="navbar">
     <a class="logo" onclick="showPage('home')">
         <div class="logo-icon"><i class="fas fa-moon"></i></div>
@@ -1339,19 +1508,15 @@
     </ul>
 </nav>
 
-<!-- ========================================
-     CONTENIDO PRINCIPAL
-     ======================================== -->
+<!-- ===== CONTENIDO ===== -->
 <div class="main-container">
 
-    <!-- ===== PÁGINA DE INICIO ===== -->
     <div id="page-home" class="page-section active">
         <div class="hero">
             <div class="hero-badge"><i class="fas fa-rocket"></i> Comunidad de Minecraft</div>
             <h1>Recursos para tu servidor</h1>
             <p>Descarga setups, plugins, mapas y más. Todo lo que necesitas para tu servidor de Minecraft.</p>
         </div>
-
         <div class="section-header">
             <div class="icon"><i class="fas fa-download"></i></div>
             <h2>Recursos Gratuitos</h2>
@@ -1360,46 +1525,66 @@
         <div id="publicFiles" class="files-grid"></div>
     </div>
 
-    <!-- ===== PÁGINA VIP ===== -->
     <div id="page-vip" class="page-section">
-        <div class="vip-error">
+        <div class="vip-error" id="vipError">
             <div class="error-icon"><i class="fas fa-crown"></i></div>
             <h2>¡Ups! Parece que ha habido un fallo</h2>
-            <p>No tienes comprado este rango. Prueba a adquirirlo en nuestro 
+            <p id="vipErrorMsg">No tienes comprado este rango. Prueba a adquirirlo en nuestro 
                 <a href="#" class="discord-link" onclick="window.open('https://discord.gg/y3QuqWerbF', '_blank')">
                     <i class="fab fa-discord"></i> Discord
                 </a>
             </p>
         </div>
+        <div id="vipContent" style="display:none;">
+            <div class="section-header">
+                <div class="icon"><i class="fas fa-crown" style="color:#f1c40f;"></i></div>
+                <h2>Recursos VIP</h2>
+                <span class="badge-count" id="vipCount">0 archivos</span>
+            </div>
+            <div id="vipFiles" class="files-grid"></div>
+        </div>
     </div>
 
-    <!-- ===== PÁGINA SUPER VIP ===== -->
     <div id="page-supervip" class="page-section">
-        <div class="vip-error">
+        <div class="vip-error" id="superVipError">
             <div class="error-icon"><i class="fas fa-star"></i></div>
             <h2>¡Ups! Parece que ha habido un fallo</h2>
-            <p>No tienes comprado este rango. Prueba a adquirirlo en nuestro 
+            <p id="superVipErrorMsg">No tienes comprado este rango. Prueba a adquirirlo en nuestro 
                 <a href="#" class="discord-link" onclick="window.open('https://discord.gg/y3QuqWerbF', '_blank')">
                     <i class="fab fa-discord"></i> Discord
                 </a>
             </p>
         </div>
+        <div id="superVipContent" style="display:none;">
+            <div class="section-header">
+                <div class="icon"><i class="fas fa-star" style="color:#e74c3c;"></i></div>
+                <h2>Recursos Super VIP</h2>
+                <span class="badge-count" id="superVipCount">0 archivos</span>
+            </div>
+            <div id="superVipFiles" class="files-grid"></div>
+        </div>
     </div>
 
-    <!-- ===== PÁGINA MEGA VIP ===== -->
     <div id="page-megavip" class="page-section">
-        <div class="vip-error">
+        <div class="vip-error" id="megaVipError">
             <div class="error-icon"><i class="fas fa-gem"></i></div>
             <h2>¡Ups! Parece que ha habido un fallo</h2>
-            <p>No tienes comprado este rango. Prueba a adquirirlo en nuestro 
+            <p id="megaVipErrorMsg">No tienes comprado este rango. Prueba a adquirirlo en nuestro 
                 <a href="#" class="discord-link" onclick="window.open('https://discord.gg/y3QuqWerbF', '_blank')">
                     <i class="fab fa-discord"></i> Discord
                 </a>
             </p>
         </div>
+        <div id="megaVipContent" style="display:none;">
+            <div class="section-header">
+                <div class="icon"><i class="fas fa-gem" style="color:#9b59b6;"></i></div>
+                <h2>Recursos Mega VIP</h2>
+                <span class="badge-count" id="megaVipCount">0 archivos</span>
+            </div>
+            <div id="megaVipFiles" class="files-grid"></div>
+        </div>
     </div>
 
-    <!-- ===== PÁGINA DISCORD ===== -->
     <div id="page-discord" class="page-section">
         <div class="discord-page">
             <div class="discord-icon"><i class="fab fa-discord"></i></div>
@@ -1412,9 +1597,7 @@
     </div>
 </div>
 
-<!-- ========================================
-     PANEL DE STAFF
-     ======================================== -->
+<!-- ===== PANEL STAFF ===== -->
 <div id="staffPanel" class="staff-panel">
     <div class="panel-header">
         <h2><i class="fas fa-user-shield"></i> Panel de Administración</h2>
@@ -1422,66 +1605,98 @@
             <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
         </button>
     </div>
-
-    <div class="form-group">
-        <label><i class="fas fa-link"></i> URL del archivo</label>
-        <input type="text" id="fileUrl" placeholder="https://ejemplo.com/archivo.zip" />
-    </div>
-    <div class="form-group">
-        <label><i class="fas fa-heading"></i> Título</label>
-        <input type="text" id="fileTitle" placeholder="Nombre de tu recurso" />
-    </div>
-    <div class="form-group">
-        <label><i class="fas fa-align-left"></i> Descripción (Markdown)</label>
-        <textarea id="fileDesc" placeholder="**Descripción** con *Markdown*&#10;Ejemplo: **Kit PvP** con armaduras *encantadas*"></textarea>
-    </div>
-    <div class="form-row">
-        <div class="form-group">
-            <label><i class="fas fa-image"></i> Imagen (URL opcional)</label>
-            <input type="text" id="fileImage" placeholder="https://ejemplo.com/imagen.png" />
-        </div>
-        <div class="form-group">
-            <label><i class="fas fa-shield-alt"></i> VirusTotal (URL opcional)</label>
-            <input type="text" id="fileVT" placeholder="https://virustotal.com/..." />
-        </div>
-    </div>
-
-    <div class="btn-group">
-        <button class="btn btn-success" onclick="showUploadOptions()">
+    <div class="staff-tabs">
+        <button class="active" onclick="switchStaffTab('subir')" data-tab="subir">
             <i class="fas fa-upload"></i> Subir Recurso
         </button>
-        <button class="btn btn-warning" onclick="saveDraft()">
-            <i class="fas fa-save"></i> Guardar Borrador
+        <button onclick="switchStaffTab('rangos')" data-tab="rangos">
+            <i class="fas fa-crown"></i> Gestionar Rangos
+        </button>
+        <button onclick="switchStaffTab('borradores')" data-tab="borradores">
+            <i class="fas fa-archive"></i> Borradores
         </button>
     </div>
 
-    <div class="upload-options" id="uploadOptions">
-        <div class="upload-label"><i class="fas fa-folder-open"></i> ¿A dónde lo quieres subir?</div>
-        <div class="category-grid">
-            <button class="cat-btn cat-gratis" onclick="uploadFile('gratis')">
-                <i class="fas fa-globe"></i> Gratis
+    <div id="staffTab-subir" class="staff-tab-content active">
+        <div class="form-group">
+            <label><i class="fas fa-file-upload"></i> Subir Plugin (archivo .jar o .zip)</label>
+            <input type="file" id="fileUpload" accept=".jar,.zip,.rar,.7z" />
+            <div style="margin-top: 6px; font-size: 0.75rem; color: var(--text-muted);">
+                <i class="fas fa-info-circle"></i> Archivos soportados: .jar, .zip, .rar, .7z
+            </div>
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-heading"></i> Título</label>
+            <input type="text" id="fileTitle" placeholder="Nombre de tu plugin" />
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-align-left"></i> Descripción (Markdown)</label>
+            <textarea id="fileDesc" placeholder="**Descripción** del plugin&#10;Ejemplo: **Plugin AntiCheat** con detección *avanzada*"></textarea>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label><i class="fas fa-image"></i> Imagen (URL opcional)</label>
+                <input type="text" id="fileImage" placeholder="https://ejemplo.com/imagen.png" />
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-shield-alt"></i> VirusTotal (URL opcional)</label>
+                <input type="text" id="fileVT" placeholder="https://virustotal.com/..." />
+            </div>
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-tag"></i> Versión del plugin</label>
+            <input type="text" id="fileVersion" placeholder="1.0.0" />
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-success" onclick="showUploadOptions()">
+                <i class="fas fa-upload"></i> Subir Recurso
             </button>
-            <button class="cat-btn cat-vip" onclick="uploadFile('vip')">
-                <i class="fas fa-crown"></i> VIP
+            <button class="btn btn-warning" onclick="saveDraft()">
+                <i class="fas fa-save"></i> Guardar Borrador
             </button>
-            <button class="cat-btn cat-super" onclick="uploadFile('supervip')">
-                <i class="fas fa-star"></i> Super VIP
-            </button>
-            <button class="cat-btn cat-mega" onclick="uploadFile('megavip')">
-                <i class="fas fa-gem"></i> Mega VIP
-            </button>
+        </div>
+        <div class="upload-options" id="uploadOptions">
+            <div class="upload-label"><i class="fas fa-folder-open"></i> ¿A dónde lo quieres subir?</div>
+            <div class="category-grid">
+                <button class="cat-btn cat-gratis" onclick="uploadFile('gratis')">
+                    <i class="fas fa-globe"></i> Gratis
+                </button>
+                <button class="cat-btn cat-vip" onclick="uploadFile('vip')">
+                    <i class="fas fa-crown"></i> VIP
+                </button>
+                <button class="cat-btn cat-super" onclick="uploadFile('supervip')">
+                    <i class="fas fa-star"></i> Super VIP
+                </button>
+                <button class="cat-btn cat-mega" onclick="uploadFile('megavip')">
+                    <i class="fas fa-gem"></i> Mega VIP
+                </button>
+            </div>
         </div>
     </div>
 
-    <div class="drafts-section">
-        <h3><i class="fas fa-archive"></i> Mis Borradores</h3>
-        <div id="draftFiles" class="files-grid"></div>
+    <div id="staffTab-rangos" class="staff-tab-content">
+        <h3 style="color: var(--text-primary); margin-bottom: 16px;">
+            <i class="fas fa-users-cog"></i> Gestionar Rangos VIP
+        </h3>
+        <p style="color: var(--text-secondary); margin-bottom: 16px;">
+            Asigna o revoca rangos VIP a los usuarios registrados.
+        </p>
+        <div class="form-group">
+            <label>Buscar usuario</label>
+            <input type="text" id="searchUser" placeholder="Escribe el nombre de usuario..." oninput="filterUsers()" />
+        </div>
+        <div class="usuarios-lista" id="usuariosList"></div>
+    </div>
+
+    <div id="staffTab-borradores" class="staff-tab-content">
+        <h3 style="color: var(--text-primary); margin-bottom: 16px;">
+            <i class="fas fa-archive"></i> Mis Borradores
+        </h3>
+        <div id="draftFiles" class="files-grid" style="grid-template-columns: 1fr;"></div>
     </div>
 </div>
 
-<!-- ========================================
-     MODAL DE AUTH
-     ======================================== -->
+<!-- ===== MODAL AUTH ===== -->
 <div class="modal-overlay" id="authModal">
     <div class="modal">
         <div class="modal-header">
@@ -1490,13 +1705,28 @@
         </div>
         <p class="subtitle">Regístrate o inicia sesión para acceder a la comunidad</p>
 
+        <button class="btn-google" onclick="loginWithGoogle()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 48 48">
+                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+            </svg>
+            Continuar con Google
+        </button>
+
+        <div class="divider">o</div>
+
         <div class="form-group">
-            <label>Usuario</label>
-            <input type="text" id="authUser" placeholder="Introduce tu usuario" />
+            <label>Correo electrónico</label>
+            <input type="email" id="authEmail" placeholder="tu@email.com" />
         </div>
         <div class="form-group">
             <label>Contraseña</label>
             <input type="password" id="authPass" placeholder="••••••••" />
+            <a class="forgot-password" onclick="openResetPassword()">
+                <i class="fas fa-key"></i> ¿Olvidaste tu contraseña?
+            </a>
         </div>
 
         <button class="btn-primary" onclick="authLogin()">
@@ -1510,17 +1740,60 @@
     </div>
 </div>
 
+<!-- ===== MODAL RESET ===== -->
+<div class="modal-overlay modal-reset" id="resetModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2><i class="fas fa-key"></i> Recuperar Contraseña</h2>
+            <button class="close-modal" onclick="closeResetModal()">&times;</button>
+        </div>
+        <p class="subtitle">Te enviaremos un correo para restablecer tu contraseña</p>
+        <div class="form-group">
+            <label>Correo electrónico</label>
+            <input type="email" id="resetEmail" placeholder="tu@email.com" />
+        </div>
+        <button class="btn-primary" onclick="sendResetPassword()">
+            <i class="fas fa-paper-plane"></i> Enviar correo
+        </button>
+        <button class="btn-secondary" onclick="closeResetModal()">
+            <i class="fas fa-arrow-left"></i> Volver
+        </button>
+        <div class="auth-message" id="resetMessage"></div>
+    </div>
+</div>
+
 <script>
+    // ========================================
+    //  CONFIGURACIÓN DE FIREBASE (TU CONFIGURACIÓN)
+    // ========================================
+    const firebaseConfig = {
+        apiKey: "AIzaSyDN5ow7IHmRd1G_Ftfid_UV2xHigyVaYsc",
+        authDomain: "lunatic-fbcc3.firebaseapp.com",
+        databaseURL: "https://lunatic-fbcc3-default-rtdb.firebaseio.com",
+        projectId: "lunatic-fbcc3",
+        storageBucket: "lunatic-fbcc3.firebasestorage.app",
+        messagingSenderId: "847038822189",
+        appId: "1:847038822189:web:f16b51fef2ebf0736705a4",
+        measurementId: "G-75CMPG0HDV"
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+    console.log('🔥 Firebase inicializado correctamente');
+
     // ========================================
     //  CONFIGURACIÓN
     // ========================================
-    const STAFF_USER = 'Key1.9Uml$';
-    const STAFF_PASS = 'Key2.82a$mc';
-    const STORAGE_FILES = 'lunatic_files_v6';
-    const STORAGE_USERS = 'lunatic_users_v6';
+    const STAFF_USER = 'Oliver';
+    const STAFF_PASS = 'k936245';
+    const STORAGE_FILES = 'lunatic_files_v10';
+    const STORAGE_USERS = 'lunatic_users_v10';
+    const STORAGE_RANGOS = 'lunatic_ranks_v10';
 
     let currentUser = null;
+    let currentUserEmail = null;
     let isStaff = false;
+    let uploadedFileData = null;
 
     // ========================================
     //  INICIALIZACIÓN
@@ -1529,8 +1802,47 @@
         createStars();
         createParticles();
         loadSampleFiles();
-        renderPublicFiles();
+        renderAllFiles();
         checkSession();
+        renderUsuarios();
+        
+        // Escuchar cambios de autenticación
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const displayName = user.displayName || user.email.split('@')[0];
+                const email = user.email;
+                const uid = user.uid;
+                
+                const fbUser = 'firebase_' + displayName.replace(/[^a-zA-Z0-9]/g, '_');
+                const users = getUsers();
+                if (!users[fbUser]) {
+                    users[fbUser] = 'firebase_auth';
+                    saveUsers(users);
+                }
+                
+                currentUser = fbUser;
+                currentUserEmail = email;
+                localStorage.setItem('lunatic_session_user', fbUser);
+                localStorage.setItem('lunatic_session_email', email);
+                
+                if (email === 'dominguezgutierrezadrian@gmail.com' || displayName === STAFF_USER) {
+                    isStaff = true;
+                    document.getElementById('staffPanel').classList.add('visible');
+                    document.getElementById('authBtnText').textContent = '👑 Staff';
+                    document.getElementById('authBtn').classList.add('logged', 'staff-mode');
+                    renderDrafts();
+                } else {
+                    isStaff = false;
+                    document.getElementById('authBtnText').textContent = '👤 ' + displayName;
+                    document.getElementById('authBtn').classList.add('logged');
+                    document.getElementById('authBtn').classList.remove('staff-mode');
+                    document.getElementById('staffPanel').classList.remove('visible');
+                }
+                
+                renderUsuarios();
+                checkVipAccessOnPage();
+            }
+        });
     });
 
     // ========================================
@@ -1590,21 +1902,432 @@
         document.querySelectorAll('.nav-links a[data-page]').forEach(el => {
             el.classList.toggle('active', el.dataset.page === page);
         });
+        
+        if (page === 'vip') checkVipAccess('vip');
+        else if (page === 'supervip') checkVipAccess('supervip');
+        else if (page === 'megavip') checkVipAccess('megavip');
     }
 
     // ========================================
-    //  AUTH - REGISTRO E INICIO DE SESIÓN
+    //  SISTEMA DE RANGOS VIP
+    // ========================================
+    function getRangos() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_RANGOS)) || {}; }
+        catch { return {}; }
+    }
+
+    function saveRangos(rangos) {
+        localStorage.setItem(STORAGE_RANGOS, JSON.stringify(rangos));
+    }
+
+    function getUserRango(username) {
+        const rangos = getRangos();
+        return rangos[username] || null;
+    }
+
+    function setUserRango(username, rango) {
+        const rangos = getRangos();
+        if (rango === null) {
+            delete rangos[username];
+        } else {
+            rangos[username] = rango;
+        }
+        saveRangos(rangos);
+        renderUsuarios();
+        checkVipAccessOnPage();
+    }
+
+    function checkVipAccess(tipo) {
+        if (!currentUser) {
+            document.getElementById(tipo + 'Error').style.display = 'block';
+            document.getElementById(tipo + 'Content').style.display = 'none';
+            return;
+        }
+
+        const rango = getUserRango(currentUser);
+        let hasAccess = false;
+        let requiredRank = '';
+        
+        if (tipo === 'vip') {
+            hasAccess = rango === 'vip' || rango === 'supervip' || rango === 'megavip' || isStaff;
+            requiredRank = 'VIP';
+        } else if (tipo === 'supervip') {
+            hasAccess = rango === 'supervip' || rango === 'megavip' || isStaff;
+            requiredRank = 'Super VIP';
+        } else if (tipo === 'megavip') {
+            hasAccess = rango === 'megavip' || isStaff;
+            requiredRank = 'Mega VIP';
+        }
+
+        if (hasAccess) {
+            document.getElementById(tipo + 'Error').style.display = 'none';
+            document.getElementById(tipo + 'Content').style.display = 'block';
+            renderCategoryFiles(tipo);
+        } else {
+            document.getElementById(tipo + 'Error').style.display = 'block';
+            document.getElementById(tipo + 'Content').style.display = 'none';
+            const msg = document.getElementById(tipo + 'ErrorMsg');
+            if (msg) {
+                msg.innerHTML = `No tienes el rango <strong>${requiredRank}</strong>. Prueba a adquirirlo en nuestro 
+                    <a href="#" class="discord-link" onclick="window.open('https://discord.gg/y3QuqWerbF', '_blank')">
+                        <i class="fab fa-discord"></i> Discord
+                    </a>`;
+            }
+        }
+    }
+
+    function checkVipAccessOnPage() {
+        const activePage = document.querySelector('.page-section.active');
+        if (!activePage) return;
+        const id = activePage.id;
+        if (id === 'page-vip') checkVipAccess('vip');
+        else if (id === 'page-supervip') checkVipAccess('supervip');
+        else if (id === 'page-megavip') checkVipAccess('megavip');
+    }
+
+    function renderUsuarios() {
+        const users = getUsers();
+        const rangos = getRangos();
+        const container = document.getElementById('usuariosList');
+        const searchTerm = document.getElementById('searchUser')?.value.toLowerCase() || '';
+        
+        const userList = Object.keys(users);
+        if (userList.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="padding: 30px;">
+                    <i class="fas fa-users"></i>
+                    <p>No hay usuarios registrados aún</p>
+                </div>
+            `;
+            return;
+        }
+
+        let filteredUsers = userList;
+        if (searchTerm) {
+            filteredUsers = userList.filter(u => u.toLowerCase().includes(searchTerm));
+        }
+
+        if (filteredUsers.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="padding: 30px;">
+                    <i class="fas fa-search"></i>
+                    <p>No se encontraron usuarios</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = filteredUsers.map(user => {
+            const rango = rangos[user] || null;
+            let badge = '<span class="rango-badge none">Sin rango</span>';
+            if (rango === 'vip') badge = '<span class="rango-badge vip">👑 VIP</span>';
+            else if (rango === 'supervip') badge = '<span class="rango-badge super">⭐ Super VIP</span>';
+            else if (rango === 'megavip') badge = '<span class="rango-badge mega">💎 Mega VIP</span>';
+
+            const isAdmin = user === STAFF_USER || user === 'firebase_Oliver' || user === 'firebase_dominguezgutierrezadrian_gmail_com';
+            const isGoogleUser = user.startsWith('google_');
+            const isFirebaseUser = user.startsWith('firebase_');
+
+            let userDisplay = user;
+            if (isFirebaseUser) {
+                userDisplay = user.replace('firebase_', '');
+            } else if (isGoogleUser) {
+                userDisplay = user.replace('google_', '');
+            }
+
+            return `
+                <div class="usuario-item">
+                    <div class="user-info">
+                        <div class="user-icon">
+                            ${isFirebaseUser ? '<i class="fas fa-fire" style="color:#f39c12;"></i>' : 
+                              isGoogleUser ? '<i class="fab fa-google"></i>' : 
+                              '<i class="fas fa-user"></i>'}
+                        </div>
+                        <div>
+                            <strong>${userDisplay}</strong>
+                            ${isAdmin ? ' <span style="color:#f39c12; font-size:0.7rem;">(Staff)</span>' : ''}
+                            ${isFirebaseUser ? ' <span style="color:#f39c12; font-size:0.7rem;">(Firebase)</span>' : ''}
+                            ${isGoogleUser ? ' <span style="color:#4285F4; font-size:0.7rem;">(Google)</span>' : ''}
+                            <div style="margin-top:4px;">${badge}</div>
+                        </div>
+                    </div>
+                    ${!isAdmin ? `
+                        <div class="user-actions">
+                            <button class="btn-vip" onclick="asignarRango('${user}', 'vip')" title="Dar VIP">
+                                <i class="fas fa-crown"></i>
+                            </button>
+                            <button class="btn-super" onclick="asignarRango('${user}', 'supervip')" title="Dar Super VIP">
+                                <i class="fas fa-star"></i>
+                            </button>
+                            <button class="btn-mega" onclick="asignarRango('${user}', 'megavip')" title="Dar Mega VIP">
+                                <i class="fas fa-gem"></i>
+                            </button>
+                            ${rango ? `<button class="btn-remove" onclick="asignarRango('${user}', null)" title="Quitar rango">
+                                <i class="fas fa-times"></i>
+                            </button>` : ''}
+                        </div>
+                    ` : `
+                        <div style="color: var(--text-muted); font-size:0.8rem;">
+                            <i class="fas fa-shield-alt"></i> Staff
+                        </div>
+                    `}
+                </div>
+            `;
+        }).join('');
+    }
+
+    function filterUsers() {
+        renderUsuarios();
+    }
+
+    function asignarRango(username, rango) {
+        if (!isStaff) return;
+        if (username === STAFF_USER || username === 'firebase_Oliver') return;
+        
+        setUserRango(username, rango);
+        const rangoNombre = rango === 'vip' ? 'VIP' : rango === 'supervip' ? 'Super VIP' : rango === 'megavip' ? 'Mega VIP' : 'ningún rango';
+        alert(`✅ Rango ${rangoNombre} asignado a ${username}`);
+        renderUsuarios();
+    }
+
+    // ========================================
+    //  AUTH CON FIREBASE
+    // ========================================
+    
+    // AUTH CON GOOGLE
+    function loginWithGoogle() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+                const user = result.user;
+                const displayName = user.displayName || user.email;
+                closeAuthModal();
+                alert('✅ Has iniciado sesión con Google como: ' + displayName);
+            })
+            .catch((error) => {
+                console.error('Error en Google Login:', error);
+                showAuthMessage('❌ Error al iniciar sesión con Google: ' + error.message, 'error');
+            });
+    }
+
+    // REGISTRO CON EMAIL Y CONTRASEÑA
+    function authRegister() {
+        const email = document.getElementById('authEmail').value.trim();
+        const pass = document.getElementById('authPass').value.trim();
+
+        if (!email || !pass) {
+            showAuthMessage('⚠️ Completa todos los campos', 'error');
+            return;
+        }
+
+        if (pass.length < 6) {
+            showAuthMessage('⚠️ La contraseña debe tener al menos 6 caracteres', 'error');
+            return;
+        }
+
+        firebase.auth().createUserWithEmailAndPassword(email, pass)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                const displayName = email.split('@')[0];
+                
+                user.sendEmailVerification().then(() => {
+                    console.log('📧 Correo de verificación enviado');
+                }).catch((err) => {
+                    console.warn('⚠️ No se pudo enviar correo de verificación:', err);
+                });
+
+                const fbUser = 'firebase_' + displayName;
+                const users = getUsers();
+                if (!users[fbUser]) {
+                    users[fbUser] = 'firebase_auth';
+                    saveUsers(users);
+                }
+                
+                showAuthMessage('✅ ¡Registrado correctamente! Revisa tu correo para verificar.', 'success');
+                document.getElementById('authEmail').value = '';
+                document.getElementById('authPass').value = '';
+                renderUsuarios();
+                firebase.auth().signOut();
+            })
+            .catch((error) => {
+                let msg = error.message;
+                if (error.code === 'auth/email-already-in-use') {
+                    msg = '⚠️ Este correo ya está registrado';
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = '⚠️ Correo electrónico inválido';
+                } else if (error.code === 'auth/weak-password') {
+                    msg = '⚠️ La contraseña es demasiado débil';
+                }
+                showAuthMessage('❌ ' + msg, 'error');
+            });
+    }
+
+    // INICIO DE SESIÓN CON EMAIL Y CONTRASEÑA
+    function authLogin() {
+        const email = document.getElementById('authEmail').value.trim();
+        const pass = document.getElementById('authPass').value.trim();
+
+        if (!email || !pass) {
+            showAuthMessage('⚠️ Completa todos los campos', 'error');
+            return;
+        }
+
+        // Verificar staff local
+        if (email === 'staff@lunatic.com' && pass === STAFF_PASS) {
+            currentUser = STAFF_USER;
+            isStaff = true;
+            localStorage.setItem('lunatic_session_user', STAFF_USER);
+            closeAuthModal();
+            document.getElementById('staffPanel').classList.add('visible');
+            document.getElementById('authBtnText').textContent = '👑 Staff';
+            document.getElementById('authBtn').classList.add('logged', 'staff-mode');
+            renderDrafts();
+            renderUsuarios();
+            checkVipAccessOnPage();
+            return;
+        }
+
+        firebase.auth().signInWithEmailAndPassword(email, pass)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                
+                if (!user.emailVerified) {
+                    showAuthMessage('⚠️ Por favor, verifica tu correo electrónico.', 'error');
+                    firebase.auth().signOut();
+                    return;
+                }
+                
+                const displayName = user.displayName || email.split('@')[0];
+                const fbUser = 'firebase_' + displayName.replace(/[^a-zA-Z0-9]/g, '_');
+                
+                const users = getUsers();
+                if (!users[fbUser]) {
+                    users[fbUser] = 'firebase_auth';
+                    saveUsers(users);
+                }
+                
+                currentUser = fbUser;
+                currentUserEmail = email;
+                localStorage.setItem('lunatic_session_user', fbUser);
+                localStorage.setItem('lunatic_session_email', email);
+                
+                closeAuthModal();
+                
+                if (email === 'dominguezgutierrezadrian@gmail.com' || displayName === STAFF_USER) {
+                    isStaff = true;
+                    document.getElementById('staffPanel').classList.add('visible');
+                    document.getElementById('authBtnText').textContent = '👑 Staff';
+                    document.getElementById('authBtn').classList.add('logged', 'staff-mode');
+                    renderDrafts();
+                } else {
+                    isStaff = false;
+                    document.getElementById('authBtnText').textContent = '👤 ' + displayName;
+                    document.getElementById('authBtn').classList.add('logged');
+                    document.getElementById('authBtn').classList.remove('staff-mode');
+                    document.getElementById('staffPanel').classList.remove('visible');
+                }
+                
+                renderUsuarios();
+                checkVipAccessOnPage();
+                alert('✅ ¡Bienvenido ' + displayName + '!');
+            })
+            .catch((error) => {
+                let msg = error.message;
+                if (error.code === 'auth/user-not-found') {
+                    msg = '❌ Usuario no encontrado. ¿Estás registrado?';
+                } else if (error.code === 'auth/wrong-password') {
+                    msg = '❌ Contraseña incorrecta';
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = '❌ Correo electrónico inválido';
+                } else if (error.code === 'auth/too-many-requests') {
+                    msg = '❌ Demasiados intentos. Intenta más tarde.';
+                }
+                showAuthMessage(msg, 'error');
+            });
+    }
+
+    // RECUPERACIÓN DE CONTRASEÑA
+    function openResetPassword() {
+        closeAuthModal();
+        document.getElementById('resetModal').classList.add('show');
+        document.getElementById('resetMessage').className = 'auth-message';
+        document.getElementById('resetMessage').textContent = '';
+        document.getElementById('resetEmail').value = '';
+    }
+
+    function closeResetModal() {
+        document.getElementById('resetModal').classList.remove('show');
+    }
+
+    function sendResetPassword() {
+        const email = document.getElementById('resetEmail').value.trim();
+        
+        if (!email) {
+            const msg = document.getElementById('resetMessage');
+            msg.textContent = '⚠️ Introduce tu correo electrónico';
+            msg.className = 'auth-message error';
+            return;
+        }
+
+        firebase.auth().sendPasswordResetEmail(email)
+            .then(() => {
+                const msg = document.getElementById('resetMessage');
+                msg.textContent = '✅ Correo de recuperación enviado. Revisa tu bandeja.';
+                msg.className = 'auth-message success';
+                document.getElementById('resetEmail').value = '';
+            })
+            .catch((error) => {
+                let msgText = error.message;
+                if (error.code === 'auth/user-not-found') {
+                    msgText = '❌ No existe una cuenta con este correo';
+                } else if (error.code === 'auth/invalid-email') {
+                    msgText = '❌ Correo electrónico inválido';
+                }
+                const msg = document.getElementById('resetMessage');
+                msg.textContent = msgText;
+                msg.className = 'auth-message error';
+            });
+    }
+
+    // CERRAR SESIÓN
+    function logoutStaff() {
+        firebase.auth().signOut().then(() => {
+            currentUser = null;
+            isStaff = false;
+            localStorage.removeItem('lunatic_session_user');
+            localStorage.removeItem('lunatic_session_email');
+            document.getElementById('staffPanel').classList.remove('visible');
+            document.getElementById('authBtnText').textContent = 'Acceder';
+            document.getElementById('authBtn').classList.remove('logged', 'staff-mode');
+            
+            ['vip', 'supervip', 'megavip'].forEach(tipo => {
+                document.getElementById(tipo + 'Error').style.display = 'block';
+                document.getElementById(tipo + 'Content').style.display = 'none';
+            });
+        }).catch((error) => {
+            console.error('Error al cerrar sesión:', error);
+        });
+    }
+
+    // ========================================
+    //  FUNCIONES DE UI
     // ========================================
     function openAuthModal() {
         document.getElementById('authModal').classList.add('show');
         document.getElementById('authMessage').className = 'auth-message';
         document.getElementById('authMessage').textContent = '';
-        document.getElementById('authUser').value = '';
+        document.getElementById('authEmail').value = '';
         document.getElementById('authPass').value = '';
     }
 
     function closeAuthModal() {
         document.getElementById('authModal').classList.remove('show');
+    }
+
+    function showAuthMessage(msg, type) {
+        const el = document.getElementById('authMessage');
+        el.textContent = msg;
+        el.className = 'auth-message ' + type;
     }
 
     function getUsers() {
@@ -1616,114 +2339,65 @@
         localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
     }
 
-    function showAuthMessage(msg, type) {
-        const el = document.getElementById('authMessage');
-        el.textContent = msg;
-        el.className = 'auth-message ' + type;
-    }
-
     function checkSession() {
         const savedUser = localStorage.getItem('lunatic_session_user');
+        const savedEmail = localStorage.getItem('lunatic_session_email');
+        
         if (savedUser) {
             currentUser = savedUser;
-            if (currentUser === STAFF_USER) {
+            currentUserEmail = savedEmail;
+            
+            if (currentUser === STAFF_USER || currentUser === 'firebase_Oliver' || savedEmail === 'dominguezgutierrezadrian@gmail.com') {
                 isStaff = true;
                 document.getElementById('staffPanel').classList.add('visible');
                 document.getElementById('authBtnText').textContent = '👑 Staff';
                 document.getElementById('authBtn').classList.add('logged', 'staff-mode');
                 renderDrafts();
             } else {
-                document.getElementById('authBtnText').textContent = '👤 ' + currentUser;
+                const displayName = savedUser.replace('firebase_', '').replace('google_', '');
+                document.getElementById('authBtnText').textContent = '👤 ' + displayName;
                 document.getElementById('authBtn').classList.add('logged');
+                isStaff = false;
             }
+            setTimeout(() => checkVipAccessOnPage(), 100);
         }
-    }
-
-    // REGISTRO
-    function authRegister() {
-        const user = document.getElementById('authUser').value.trim();
-        const pass = document.getElementById('authPass').value.trim();
-
-        if (!user || !pass) {
-            showAuthMessage('⚠️ Completa todos los campos', 'error');
-            return;
-        }
-
-        const users = getUsers();
-        if (users[user]) {
-            showAuthMessage('⚠️ Este usuario ya existe', 'error');
-            return;
-        }
-
-        users[user] = pass;
-        saveUsers(users);
-        showAuthMessage('✅ ¡Registrado correctamente! Ahora inicia sesión.', 'success');
-        document.getElementById('authUser').value = '';
-        document.getElementById('authPass').value = '';
-    }
-
-    // INICIO DE SESIÓN
-    function authLogin() {
-        const user = document.getElementById('authUser').value.trim();
-        const pass = document.getElementById('authPass').value.trim();
-
-        if (!user || !pass) {
-            showAuthMessage('⚠️ Completa todos los campos', 'error');
-            return;
-        }
-
-        const users = getUsers();
-        
-        // Verificar si es la cuenta de staff
-        if (user === STAFF_USER && pass === STAFF_PASS) {
-            currentUser = user;
-            isStaff = true;
-            localStorage.setItem('lunatic_session_user', user);
-            closeAuthModal();
-            document.getElementById('staffPanel').classList.add('visible');
-            document.getElementById('staffPanel').scrollIntoView({ behavior: 'smooth' });
-            document.getElementById('authBtnText').textContent = '👑 Staff';
-            document.getElementById('authBtn').classList.add('logged', 'staff-mode');
-            renderDrafts();
-            return;
-        }
-
-        // Verificar si es un usuario normal registrado
-        if (users[user] && users[user] === pass) {
-            currentUser = user;
-            isStaff = false;
-            localStorage.setItem('lunatic_session_user', user);
-            closeAuthModal();
-            document.getElementById('authBtnText').textContent = '👤 ' + user;
-            document.getElementById('authBtn').classList.add('logged');
-            document.getElementById('authBtn').classList.remove('staff-mode');
-            // Ocultar panel staff si estaba visible
-            document.getElementById('staffPanel').classList.remove('visible');
-        } else {
-            showAuthMessage('❌ Usuario o contraseña incorrectos', 'error');
-        }
-    }
-
-    function logoutStaff() {
-        currentUser = null;
-        isStaff = false;
-        localStorage.removeItem('lunatic_session_user');
-        document.getElementById('staffPanel').classList.remove('visible');
-        document.getElementById('authBtnText').textContent = 'Acceder';
-        document.getElementById('authBtn').classList.remove('logged', 'staff-mode');
     }
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeAuthModal();
+        if (e.key === 'Escape') {
+            closeAuthModal();
+            closeResetModal();
+        }
     });
 
     document.getElementById('authModal').addEventListener('click', (e) => {
         if (e.target === e.currentTarget) closeAuthModal();
     });
 
+    document.getElementById('resetModal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeResetModal();
+    });
+
     // ========================================
     //  GESTIÓN DE ARCHIVOS
     // ========================================
+    document.getElementById('fileUpload')?.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            uploadedFileData = file;
+            const infoDisplay = document.getElementById('fileInfoDisplay');
+            if (!infoDisplay) {
+                const info = document.createElement('div');
+                info.id = 'fileInfoDisplay';
+                info.className = 'file-info-display';
+                info.innerHTML = `<i class="fas fa-check-circle" style="color:#2ecc71;"></i> Archivo seleccionado: <strong>${file.name}</strong> (${(file.size / 1024).toFixed(1)} KB)`;
+                document.getElementById('fileUpload').parentNode.appendChild(info);
+            } else {
+                infoDisplay.innerHTML = `<i class="fas fa-check-circle" style="color:#2ecc71;"></i> Archivo seleccionado: <strong>${file.name}</strong> (${(file.size / 1024).toFixed(1)} KB)`;
+            }
+        }
+    });
+
     function getFiles() {
         try { return JSON.parse(localStorage.getItem(STORAGE_FILES)) || []; }
         catch { return []; }
@@ -1738,33 +2412,27 @@
         if (!localStorage.getItem(STORAGE_FILES)) {
             const samples = [{
                 id: 1,
-                title: 'Kit PvP Ultimate',
-                desc: '**Kit completo** para PvP con armaduras encantadas, pociones de velocidad y espada afilada.',
+                title: 'AntiCheat Premium',
+                desc: '**AntiCheat** avanzado con detección de movimientos, combate y construcción en tiempo real.',
                 image: '',
-                vt: '',
-                url: 'https://ejemplo.com/kit-pvp.zip',
+                vt: 'https://virustotal.com/plugin',
+                url: '#',
                 category: 'gratis',
                 draft: false,
+                version: '2.3.1',
+                filename: 'AntiCheat.jar',
                 timestamp: Date.now()
             }, {
                 id: 2,
-                title: 'Plugin AntiCheat Pro',
-                desc: '*AntiCheat* avanzado con detección de movimientos, combate y construcción en tiempo real.',
-                image: '',
-                vt: 'https://virustotal.com/plugin',
-                url: 'https://ejemplo.com/anticheat.zip',
-                category: 'gratis',
-                draft: false,
-                timestamp: Date.now()
-            }, {
-                id: 3,
-                title: 'Mapa Skyblock Pro',
-                desc: 'Mapa de **Skyblock** con islas personalizadas, generadores de recursos y sistema de misiones.',
+                title: 'SkyBlock Generator',
+                desc: 'Sistema de **generadores** para SkyBlock con más de 50 tipos de recursos.',
                 image: '',
                 vt: '',
-                url: 'https://ejemplo.com/skyblock.zip',
+                url: '#',
                 category: 'gratis',
                 draft: false,
+                version: '1.5.0',
+                filename: 'SkyBlockGen.jar',
                 timestamp: Date.now()
             }];
             saveFiles(samples);
@@ -1772,8 +2440,20 @@
     }
 
     function updateCounts() {
-        const files = getFiles().filter(f => f.category === 'gratis' && !f.draft);
-        document.getElementById('publicCount').textContent = files.length + ' archivos';
+        const files = getFiles();
+        const gratis = files.filter(f => f.category === 'gratis' && !f.draft);
+        document.getElementById('publicCount').textContent = gratis.length + ' archivos';
+        
+        ['vip', 'supervip', 'megavip'].forEach(cat => {
+            const count = files.filter(f => f.category === cat && !f.draft).length;
+            const el = document.getElementById(cat + 'Count');
+            if (el) el.textContent = count + ' archivos';
+        });
+    }
+
+    function renderAllFiles() {
+        renderPublicFiles();
+        ['vip', 'supervip', 'megavip'].forEach(cat => renderCategoryFiles(cat));
     }
 
     function renderPublicFiles() {
@@ -1781,12 +2461,21 @@
         const container = document.getElementById('publicFiles');
 
         if (!files.length) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-box-open"></i>
-                    <p>No hay recursos públicos disponibles aún</p>
-                </div>
-            `;
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No hay recursos públicos disponibles aún</p></div>`;
+            return;
+        }
+
+        container.innerHTML = files.map(f => fileCardHTML(f)).join('');
+        updateCounts();
+    }
+
+    function renderCategoryFiles(category) {
+        const files = getFiles().filter(f => f.category === category && !f.draft);
+        const container = document.getElementById(category + 'Files');
+        if (!container) return;
+
+        if (!files.length) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No hay recursos en esta categoría</p></div>`;
             return;
         }
 
@@ -1800,12 +2489,7 @@
         const container = document.getElementById('draftFiles');
 
         if (!files.length) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-file-alt"></i>
-                    <p>No hay borradores guardados</p>
-                </div>
-            `;
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-file-alt"></i><p>No hay borradores guardados</p></div>`;
             return;
         }
 
@@ -1816,11 +2500,17 @@
         const descHTML = markdownToHTML(file.desc);
         const iconHTML = file.image ?
             `<img src="${file.image}" alt="${file.title}" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-file\\'></i>'" />` :
-            `<i class="fas fa-file"></i>`;
+            `<i class="fas fa-file-archive"></i>`;
 
         const vtHTML = file.vt ?
             `<a href="${file.vt}" target="_blank" class="vt-link"><i class="fas fa-shield-alt"></i> VirusTotal</a>` :
             '';
+
+        const versionHTML = file.version ? 
+            `<span style="font-size:0.7rem; color:var(--text-muted);"><i class="fas fa-tag"></i> v${file.version}</span>` : '';
+
+        const filenameHTML = file.filename ?
+            `<span style="font-size:0.7rem; color:var(--text-muted);"><i class="fas fa-file"></i> ${file.filename}</span>` : '';
 
         const draftActions = isDraft && isStaff ? `
             <div class="draft-actions">
@@ -1835,6 +2525,16 @@
 
         const draftClass = isDraft ? 'draft-card' : '';
 
+        let downloadUrl = file.url;
+        if (file.fileData) {
+            try {
+                const blob = new Blob([file.fileData], { type: 'application/octet-stream' });
+                downloadUrl = URL.createObjectURL(blob);
+            } catch(e) {
+                downloadUrl = '#';
+            }
+        }
+
         return `
             <div class="file-card ${draftClass}">
                 <div class="file-header">
@@ -1843,12 +2543,14 @@
                         <h3>${file.title}</h3>
                         <div class="file-tags">
                             <span>${isDraft ? '📝 Borrador' : '📦 ' + file.category.toUpperCase()}</span>
+                            ${versionHTML}
+                            ${filenameHTML}
                         </div>
                     </div>
                 </div>
                 <div class="file-desc">${descHTML}</div>
                 <div class="file-footer">
-                    <a href="${file.url}" target="_blank" class="download-btn">
+                    <a href="${downloadUrl}" target="_blank" class="download-btn" download="${file.filename || 'plugin.jar'}">
                         <i class="fas fa-download"></i> Descargar
                     </a>
                     ${vtHTML}
@@ -1863,12 +2565,17 @@
     // ========================================
     function showUploadOptions() {
         if (!isStaff) return;
-        const url = document.getElementById('fileUrl').value.trim();
         const title = document.getElementById('fileTitle').value.trim();
         const desc = document.getElementById('fileDesc').value.trim();
+        const fileInput = document.getElementById('fileUpload');
 
-        if (!url || !title || !desc) {
-            alert('⚠️ Completa Archivo, Título y Descripción');
+        if (!fileInput.files || fileInput.files.length === 0) {
+            alert('⚠️ Selecciona un archivo para subir');
+            return;
+        }
+
+        if (!title || !desc) {
+            alert('⚠️ Completa Título y Descripción');
             return;
         }
 
@@ -1878,74 +2585,114 @@
 
     function uploadFile(category) {
         if (!isStaff) return;
-        const url = document.getElementById('fileUrl').value.trim();
         const title = document.getElementById('fileTitle').value.trim();
         const desc = document.getElementById('fileDesc').value.trim();
         const image = document.getElementById('fileImage').value.trim();
         const vt = document.getElementById('fileVT').value.trim();
+        const version = document.getElementById('fileVersion').value.trim();
+        const fileInput = document.getElementById('fileUpload');
 
-        if (!url || !title || !desc) {
-            alert('⚠️ Completa Archivo, Título y Descripción');
+        if (!fileInput.files || fileInput.files.length === 0) {
+            alert('⚠️ Selecciona un archivo para subir');
             return;
         }
 
-        const fileData = {
-            url,
-            title,
-            desc,
-            image,
-            vt,
-            category: category,
-            draft: false,
-            timestamp: Date.now()
+        if (!title || !desc) {
+            alert('⚠️ Completa Título y Descripción');
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            const fileData = {
+                title: title,
+                desc: desc,
+                image: image,
+                vt: vt,
+                version: version || '1.0.0',
+                filename: file.name,
+                fileData: e.target.result,
+                category: category,
+                draft: false,
+                timestamp: Date.now(),
+                url: '#'
+            };
+
+            addFile(fileData);
+            document.getElementById('uploadOptions').style.display = 'none';
+            document.getElementById('fileTitle').value = '';
+            document.getElementById('fileDesc').value = '';
+            document.getElementById('fileImage').value = '';
+            document.getElementById('fileVT').value = '';
+            document.getElementById('fileVersion').value = '';
+            document.getElementById('fileUpload').value = '';
+            uploadedFileData = null;
+            const infoDisplay = document.getElementById('fileInfoDisplay');
+            if (infoDisplay) infoDisplay.remove();
+
+            alert('✅ Plugin subido correctamente a ' + category.toUpperCase());
+            renderAllFiles();
+            renderDrafts();
         };
 
-        addFile(fileData);
-        document.getElementById('uploadOptions').style.display = 'none';
-        document.getElementById('fileUrl').value = '';
-        document.getElementById('fileTitle').value = '';
-        document.getElementById('fileDesc').value = '';
-        document.getElementById('fileImage').value = '';
-        document.getElementById('fileVT').value = '';
-
-        alert('✅ Archivo subido correctamente a ' + category.toUpperCase());
-        renderPublicFiles();
-        renderDrafts();
+        reader.readAsDataURL(file);
     }
 
     function saveDraft() {
         if (!isStaff) return;
-        const url = document.getElementById('fileUrl').value.trim();
         const title = document.getElementById('fileTitle').value.trim();
         const desc = document.getElementById('fileDesc').value.trim();
         const image = document.getElementById('fileImage').value.trim();
         const vt = document.getElementById('fileVT').value.trim();
+        const version = document.getElementById('fileVersion').value.trim();
+        const fileInput = document.getElementById('fileUpload');
 
-        if (!url || !title || !desc) {
-            alert('⚠️ Completa Archivo, Título y Descripción');
+        if (!fileInput.files || fileInput.files.length === 0) {
+            alert('⚠️ Selecciona un archivo para subir');
             return;
         }
 
-        const fileData = {
-            url,
-            title,
-            desc,
-            image,
-            vt,
-            category: 'borrador',
-            draft: true,
-            timestamp: Date.now()
+        if (!title || !desc) {
+            alert('⚠️ Completa Título y Descripción');
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            const fileData = {
+                title: title,
+                desc: desc,
+                image: image,
+                vt: vt,
+                version: version || '1.0.0',
+                filename: file.name,
+                fileData: e.target.result,
+                category: 'borrador',
+                draft: true,
+                timestamp: Date.now(),
+                url: '#'
+            };
+
+            addFile(fileData);
+            document.getElementById('fileTitle').value = '';
+            document.getElementById('fileDesc').value = '';
+            document.getElementById('fileImage').value = '';
+            document.getElementById('fileVT').value = '';
+            document.getElementById('fileVersion').value = '';
+            document.getElementById('fileUpload').value = '';
+            uploadedFileData = null;
+            const infoDisplay = document.getElementById('fileInfoDisplay');
+            if (infoDisplay) infoDisplay.remove();
+
+            alert('📝 Borrador guardado correctamente');
+            renderDrafts();
         };
 
-        addFile(fileData);
-        document.getElementById('fileUrl').value = '';
-        document.getElementById('fileTitle').value = '';
-        document.getElementById('fileDesc').value = '';
-        document.getElementById('fileImage').value = '';
-        document.getElementById('fileVT').value = '';
-
-        alert('📝 Borrador guardado correctamente');
-        renderDrafts();
+        reader.readAsDataURL(file);
     }
 
     function addFile(fileData) {
@@ -1965,7 +2712,7 @@
             files[index].draft = false;
             files[index].category = 'gratis';
             saveFiles(files);
-            renderPublicFiles();
+            renderAllFiles();
             renderDrafts();
             alert('✅ Borrador publicado en Gratis');
         }
@@ -1978,8 +2725,25 @@
         let files = getFiles();
         files = files.filter(f => f.id !== id);
         saveFiles(files);
-        renderPublicFiles();
+        renderAllFiles();
         renderDrafts();
+    }
+
+    // ========================================
+    //  STAFF TABS
+    // ========================================
+    function switchStaffTab(tab) {
+        document.querySelectorAll('.staff-tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.staff-tabs button').forEach(el => el.classList.remove('active'));
+        
+        const target = document.getElementById('staffTab-' + tab);
+        if (target) target.classList.add('active');
+        
+        const btn = document.querySelector(`.staff-tabs button[data-tab="${tab}"]`);
+        if (btn) btn.classList.add('active');
+        
+        if (tab === 'rangos') renderUsuarios();
+        if (tab === 'borradores') renderDrafts();
     }
 
     // ========================================
@@ -1995,10 +2759,14 @@
         return html;
     }
 
-    console.log('🌙 Lunatic Community v6 cargada correctamente');
-    console.log('🔐 Cuenta Staff: Key1.9Uml$ / Key2.82a$mc');
-    console.log('📝 Cualquier usuario puede registrarse e iniciar sesión');
+    console.log('🌙 Lunatic Community v10 - CON FIREBASE COMPLETO');
+    console.log('🔐 Cuenta Staff: Oliver / k936245');
+    console.log('📧 Registro con correo y contraseña disponible');
+    console.log('🔑 Inicio de sesión con Google disponible');
+    console.log('📧 Recuperación de contraseña disponible');
     console.log('👑 Solo la cuenta staff tiene acceso al panel de administración');
+    console.log('📦 Los staff pueden subir plugins directamente');
+    console.log('👥 Los staff pueden asignar rangos VIP a usuarios');
 </script>
 </body>
 </html>
