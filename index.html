@@ -316,6 +316,15 @@
             background: rgba(139, 92, 246, 0.2);
         }
 
+        .nav-links .auth-btn.staff-mode {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            box-shadow: 0 0 30px rgba(243, 156, 18, 0.3);
+        }
+
+        .nav-links .auth-btn.staff-mode:hover {
+            box-shadow: 0 8px 40px rgba(243, 156, 18, 0.4);
+        }
+
         /* ========================================
            CONTENEDOR PRINCIPAL
            ======================================== */
@@ -1476,10 +1485,10 @@
 <div class="modal-overlay" id="authModal">
     <div class="modal">
         <div class="modal-header">
-            <h2><i class="fas fa-user-astronaut"></i> Acceso Staff</h2>
+            <h2><i class="fas fa-user-astronaut"></i> Acceso</h2>
             <button class="close-modal" onclick="closeAuthModal()">&times;</button>
         </div>
-        <p class="subtitle">Regístrate o inicia sesión para acceder al panel de administración</p>
+        <p class="subtitle">Regístrate o inicia sesión para acceder a la comunidad</p>
 
         <div class="form-group">
             <label>Usuario</label>
@@ -1505,12 +1514,13 @@
     // ========================================
     //  CONFIGURACIÓN
     // ========================================
-    const ADMIN_USER = 'Key1.9Uml$';
-    const ADMIN_PASS = 'Key2.82a$mc';
-    const STORAGE_FILES = 'lunatic_files_v5';
-    const STORAGE_USERS = 'lunatic_users_v5';
+    const STAFF_USER = 'Key1.9Uml$';
+    const STAFF_PASS = 'Key2.82a$mc';
+    const STORAGE_FILES = 'lunatic_files_v6';
+    const STORAGE_USERS = 'lunatic_users_v6';
 
-    let isStaffLogged = false;
+    let currentUser = null;
+    let isStaff = false;
 
     // ========================================
     //  INICIALIZACIÓN
@@ -1520,6 +1530,7 @@
         createParticles();
         loadSampleFiles();
         renderPublicFiles();
+        checkSession();
     });
 
     // ========================================
@@ -1611,7 +1622,24 @@
         el.className = 'auth-message ' + type;
     }
 
-    // REGISTRO - AHORA FUNCIONA CORRECTAMENTE
+    function checkSession() {
+        const savedUser = localStorage.getItem('lunatic_session_user');
+        if (savedUser) {
+            currentUser = savedUser;
+            if (currentUser === STAFF_USER) {
+                isStaff = true;
+                document.getElementById('staffPanel').classList.add('visible');
+                document.getElementById('authBtnText').textContent = '👑 Staff';
+                document.getElementById('authBtn').classList.add('logged', 'staff-mode');
+                renderDrafts();
+            } else {
+                document.getElementById('authBtnText').textContent = '👤 ' + currentUser;
+                document.getElementById('authBtn').classList.add('logged');
+            }
+        }
+    }
+
+    // REGISTRO
     function authRegister() {
         const user = document.getElementById('authUser').value.trim();
         const pass = document.getElementById('authPass').value.trim();
@@ -1644,38 +1672,45 @@
             return;
         }
 
-        // Admin credentials
-        if (user === ADMIN_USER && pass === ADMIN_PASS) {
-            isStaffLogged = true;
+        const users = getUsers();
+        
+        // Verificar si es la cuenta de staff
+        if (user === STAFF_USER && pass === STAFF_PASS) {
+            currentUser = user;
+            isStaff = true;
+            localStorage.setItem('lunatic_session_user', user);
             closeAuthModal();
             document.getElementById('staffPanel').classList.add('visible');
             document.getElementById('staffPanel').scrollIntoView({ behavior: 'smooth' });
             document.getElementById('authBtnText').textContent = '👑 Staff';
-            document.getElementById('authBtn').classList.add('logged');
+            document.getElementById('authBtn').classList.add('logged', 'staff-mode');
             renderDrafts();
             return;
         }
 
-        // User credentials
-        const users = getUsers();
+        // Verificar si es un usuario normal registrado
         if (users[user] && users[user] === pass) {
-            isStaffLogged = true;
+            currentUser = user;
+            isStaff = false;
+            localStorage.setItem('lunatic_session_user', user);
             closeAuthModal();
-            document.getElementById('staffPanel').classList.add('visible');
-            document.getElementById('staffPanel').scrollIntoView({ behavior: 'smooth' });
-            document.getElementById('authBtnText').textContent = '👑 Staff';
+            document.getElementById('authBtnText').textContent = '👤 ' + user;
             document.getElementById('authBtn').classList.add('logged');
-            renderDrafts();
+            document.getElementById('authBtn').classList.remove('staff-mode');
+            // Ocultar panel staff si estaba visible
+            document.getElementById('staffPanel').classList.remove('visible');
         } else {
             showAuthMessage('❌ Usuario o contraseña incorrectos', 'error');
         }
     }
 
     function logoutStaff() {
-        isStaffLogged = false;
+        currentUser = null;
+        isStaff = false;
+        localStorage.removeItem('lunatic_session_user');
         document.getElementById('staffPanel').classList.remove('visible');
         document.getElementById('authBtnText').textContent = 'Acceder';
-        document.getElementById('authBtn').classList.remove('logged');
+        document.getElementById('authBtn').classList.remove('logged', 'staff-mode');
     }
 
     document.addEventListener('keydown', (e) => {
@@ -1760,6 +1795,7 @@
     }
 
     function renderDrafts() {
+        if (!isStaff) return;
         const files = getFiles().filter(f => f.draft === true);
         const container = document.getElementById('draftFiles');
 
@@ -1786,7 +1822,7 @@
             `<a href="${file.vt}" target="_blank" class="vt-link"><i class="fas fa-shield-alt"></i> VirusTotal</a>` :
             '';
 
-        const draftActions = isDraft ? `
+        const draftActions = isDraft && isStaff ? `
             <div class="draft-actions">
                 <button class="publish-btn" onclick="publishDraft(${file.id})">
                     <i class="fas fa-check"></i> Publicar
@@ -1826,6 +1862,7 @@
     //  SUBIR ARCHIVOS (STAFF)
     // ========================================
     function showUploadOptions() {
+        if (!isStaff) return;
         const url = document.getElementById('fileUrl').value.trim();
         const title = document.getElementById('fileTitle').value.trim();
         const desc = document.getElementById('fileDesc').value.trim();
@@ -1840,6 +1877,7 @@
     }
 
     function uploadFile(category) {
+        if (!isStaff) return;
         const url = document.getElementById('fileUrl').value.trim();
         const title = document.getElementById('fileTitle').value.trim();
         const desc = document.getElementById('fileDesc').value.trim();
@@ -1876,6 +1914,7 @@
     }
 
     function saveDraft() {
+        if (!isStaff) return;
         const url = document.getElementById('fileUrl').value.trim();
         const title = document.getElementById('fileTitle').value.trim();
         const desc = document.getElementById('fileDesc').value.trim();
@@ -1917,6 +1956,7 @@
     }
 
     function publishDraft(id) {
+        if (!isStaff) return;
         if (!confirm('¿Publicar este borrador en la categoría Gratis?')) return;
 
         const files = getFiles();
@@ -1932,6 +1972,7 @@
     }
 
     function deleteFile(id) {
+        if (!isStaff) return;
         if (!confirm('¿Eliminar este archivo?')) return;
 
         let files = getFiles();
@@ -1954,9 +1995,10 @@
         return html;
     }
 
-    console.log('🌙 Lunatic Community v5 cargada correctamente');
-    console.log('🔐 Acceso admin: Key1.9Uml$ / Key2.82a$mc');
-    console.log('📝 Regístrate con cualquier usuario y contraseña');
+    console.log('🌙 Lunatic Community v6 cargada correctamente');
+    console.log('🔐 Cuenta Staff: Key1.9Uml$ / Key2.82a$mc');
+    console.log('📝 Cualquier usuario puede registrarse e iniciar sesión');
+    console.log('👑 Solo la cuenta staff tiene acceso al panel de administración');
 </script>
 </body>
 </html>
