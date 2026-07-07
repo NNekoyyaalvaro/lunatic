@@ -30,6 +30,9 @@
             --border-color: rgba(139, 92, 246, 0.12);
             --radius: 20px;
             --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --color-owner: #f39c12;
+            --color-admin: #e74c3c;
+            --color-helper: #3498db;
         }
 
         html { scroll-behavior: smooth; }
@@ -152,7 +155,9 @@
         ::-webkit-scrollbar-track { background: rgba(10, 10, 18, 0.5); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-        /* ===== NAVEGACIÓN ===== */
+        /* ========================================
+           NAVEGACIÓN
+           ======================================== */
         .navbar {
             position: sticky;
             top: 0;
@@ -301,7 +306,9 @@
             box-shadow: 0 8px 40px rgba(243, 156, 18, 0.4);
         }
 
-        /* ===== CONTENEDOR PRINCIPAL ===== */
+        /* ========================================
+           CONTENEDOR PRINCIPAL
+           ======================================== */
         .main-container {
             max-width: 1280px;
             margin: 0 auto;
@@ -320,11 +327,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== HERO ===== */
+        /* ========================================
+           HERO
+           ======================================== */
         .hero {
             background: var(--dark-card);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border-radius: var(--radius);
             padding: 60px 50px;
             margin-bottom: 40px;
@@ -376,7 +384,9 @@
             margin: 0 auto;
         }
 
-        /* ===== SECCIONES ===== */
+        /* ========================================
+           SECCIONES
+           ======================================== */
         .section-header {
             display: flex;
             align-items: center;
@@ -411,25 +421,27 @@
             font-weight: 500;
         }
 
-        /* ===== TARJETAS ===== */
-        .files-grid {
+        /* ========================================
+           TARJETAS DE PUBLICACIONES
+           ======================================== */
+        .posts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: 1fr;
             gap: 24px;
         }
 
-        .file-card {
+        .post-card {
             background: var(--dark-card);
             backdrop-filter: blur(16px);
             border-radius: 16px;
-            padding: 24px;
+            padding: 28px;
             border: 1px solid var(--border-color);
             transition: var(--transition);
             position: relative;
             overflow: hidden;
         }
 
-        .file-card::before {
+        .post-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -441,79 +453,64 @@
             transition: var(--transition);
         }
 
-        .file-card:hover::before { opacity: 1; }
-
-        .file-card:hover {
-            transform: translateY(-8px);
+        .post-card:hover::before { opacity: 1; }
+        .post-card:hover {
             border-color: rgba(139, 92, 246, 0.2);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
 
-        .file-card .file-header {
+        .post-card .post-header {
             display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 14px;
-        }
-
-        .file-card .file-header .file-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
-            background: rgba(139, 92, 246, 0.06);
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--primary-light);
-        }
-
-        .file-card .file-header .file-icon img {
-            width: 100%;
-            height: 100%;
-            border-radius: 12px;
-            object-fit: cover;
-        }
-
-        .file-card .file-header .file-title-group {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .file-card .file-header .file-title-group h3 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            line-height: 1.3;
-        }
-
-        .file-card .file-header .file-title-group .file-tags {
-            display: flex;
-            gap: 4px;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
             flex-wrap: wrap;
-            margin-top: 4px;
+            gap: 10px;
         }
 
-        .file-card .file-header .file-title-group .file-tags span {
-            font-size: 0.6rem;
+        .post-card .post-header .post-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .post-card .post-header .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .post-card .post-header .post-meta .staff-badge {
             padding: 2px 10px;
             border-radius: 30px;
-            background: rgba(139, 92, 246, 0.08);
-            color: var(--text-secondary);
-            font-weight: 500;
+            font-size: 0.65rem;
+            font-weight: 600;
         }
 
-        .file-card .file-desc {
+        .staff-badge.owner { background: rgba(243, 156, 18, 0.2); color: #f39c12; }
+        .staff-badge.admin { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .staff-badge.helper { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+        .staff-badge.staff { background: rgba(139, 92, 246, 0.2); color: var(--primary-light); }
+
+        .post-card .post-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin: 12px 0;
+        }
+
+        .post-card .post-content {
             color: var(--text-secondary);
-            font-size: 0.92rem;
-            line-height: 1.7;
+            font-size: 0.95rem;
+            line-height: 1.8;
             margin-bottom: 16px;
         }
 
-        .file-card .file-desc strong { color: var(--primary-light); }
-
-        .file-card .file-desc code {
+        .post-card .post-content strong { color: var(--primary-light); }
+        .post-card .post-content code {
             background: rgba(139, 92, 246, 0.06);
             padding: 2px 10px;
             border-radius: 6px;
@@ -522,88 +519,286 @@
             font-family: 'Inter', monospace;
         }
 
-        .file-card .file-footer {
+        .post-card .post-actions {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
             gap: 12px;
-            padding-top: 14px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            padding-top: 12px;
             border-top: 1px solid var(--border-color);
         }
 
-        .file-card .file-footer .download-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--primary-light);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            padding: 6px 16px;
-            border-radius: 10px;
-            background: rgba(139, 92, 246, 0.06);
-        }
-
-        .file-card .file-footer .download-btn:hover {
-            background: rgba(139, 92, 246, 0.12);
-            transform: translateX(4px);
-        }
-
-        .file-card .file-footer .vt-link {
-            color: #e74c3c;
-            font-size: 0.8rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            opacity: 0.7;
-            transition: var(--transition);
-        }
-
-        .file-card .file-footer .vt-link:hover { opacity: 1; }
-
-        .file-card.draft-card { border-left: 3px solid #f39c12; }
-
-        .file-card.draft-card .draft-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .file-card.draft-card .draft-actions button {
+        .post-card .post-actions button {
             padding: 6px 16px;
             border: none;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            background: rgba(139, 92, 246, 0.06);
+            color: var(--text-secondary);
+        }
+
+        .post-card .post-actions button:hover {
+            background: rgba(139, 92, 246, 0.12);
+            color: var(--text-primary);
+        }
+
+        .post-card .post-actions .btn-delete {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+        }
+
+        .post-card .post-actions .btn-delete:hover {
+            background: rgba(231, 76, 60, 0.2);
+        }
+
+        .post-card .post-actions .btn-comment {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+        }
+
+        .post-card .post-actions .btn-comment:hover {
+            background: rgba(52, 152, 219, 0.2);
+        }
+
+        .post-card .post-actions .btn-reply {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ecc71;
+        }
+
+        .post-card .post-actions .btn-reply:hover {
+            background: rgba(46, 204, 113, 0.2);
+        }
+
+        /* ========================================
+           COMENTARIOS
+           ======================================== */
+        .comments-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .comments-section .comment {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .comments-section .comment:last-child { border-bottom: none; }
+
+        .comments-section .comment .comment-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            color: var(--primary-light);
+        }
+
+        .comments-section .comment .comment-body {
+            flex: 1;
+        }
+
+        .comments-section .comment .comment-body .comment-author {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .comments-section .comment .comment-body .comment-author .role-badge {
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 1px 8px;
+            border-radius: 30px;
+            margin-left: 6px;
+        }
+
+        .comments-section .comment .comment-body .comment-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        .comments-section .comment .comment-body .comment-time {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .comments-section .comment .comment-body .comment-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .comments-section .comment .comment-body .comment-actions button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.7rem;
             cursor: pointer;
             transition: var(--transition);
             font-family: 'Inter', sans-serif;
         }
 
-        .file-card.draft-card .draft-actions .publish-btn {
-            background: #2ecc71;
+        .comments-section .comment .comment-body .comment-actions button:hover {
+            color: var(--text-primary);
+        }
+
+        .comments-section .comment .comment-body .comment-actions .btn-delete-comment {
+            color: #e74c3c;
+        }
+
+        .comments-section .comment .comment-body .comment-actions .btn-delete-comment:hover {
+            color: #ff6b6b;
+        }
+
+        .comment-input-wrapper {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .comment-input-wrapper input {
+            flex: 1;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .comment-input-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.04);
+        }
+
+        .comment-input-wrapper input::placeholder {
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .comment-input-wrapper button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
         }
 
-        .file-card.draft-card .draft-actions .publish-btn:hover {
-            background: #27ae60;
+        .comment-input-wrapper button:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--primary-glow);
         }
 
-        .file-card.draft-card .draft-actions .delete-btn {
-            background: #e74c3c;
+        /* ========================================
+           SUBIR PUBLICACIÓN
+           ======================================== */
+        .create-post-form {
+            background: var(--dark-card);
+            backdrop-filter: blur(16px);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .create-post-form .form-group {
+            margin-bottom: 16px;
+        }
+
+        .create-post-form .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .create-post-form .form-group input,
+        .create-post-form .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .create-post-form .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .create-post-form .form-group input:focus,
+        .create-post-form .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .create-post-form .form-group input[type="file"] {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+        }
+
+        .create-post-form .form-group input[type="file"]::-webkit-file-upload-button {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .create-post-form .form-group input[type="file"]::-webkit-file-upload-button:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .create-post-form .btn-primary {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
         }
 
-        .file-card.draft-card .draft-actions .delete-btn:hover {
-            background: #c0392b;
+        .create-post-form .btn-primary:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--primary-glow);
         }
 
-        /* ===== VIP ERROR ===== */
+        /* ========================================
+           VIP ERROR
+           ======================================== */
         .vip-error {
             text-align: center;
             padding: 80px 40px;
@@ -650,7 +845,9 @@
             text-decoration: underline;
         }
 
-        /* ===== MODALES ===== */
+        /* ========================================
+           MODALES
+           ======================================== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -769,7 +966,8 @@
             font-size: 0.85rem;
         }
 
-        .modal .form-group input {
+        .modal .form-group input,
+        .modal .form-group select {
             width: 100%;
             padding: 14px 16px;
             background: rgba(255, 255, 255, 0.04);
@@ -782,7 +980,13 @@
             font-family: 'Inter', sans-serif;
         }
 
-        .modal .form-group input:focus {
+        .modal .form-group select option {
+            background: #1a1535;
+            color: var(--text-primary);
+        }
+
+        .modal .form-group input:focus,
+        .modal .form-group select:focus {
             border-color: var(--primary);
             box-shadow: 0 0 30px rgba(139, 92, 246, 0.06);
         }
@@ -899,10 +1103,14 @@
             border: 1px solid rgba(52, 152, 219, 0.1);
         }
 
-        /* ===== MODAL RESET ===== */
+        /* ========================================
+           MODAL RESET
+           ======================================== */
         .modal-reset .modal { max-width: 400px; }
 
-        /* ===== RANGOS ===== */
+        /* ========================================
+           RANGOS
+           ======================================== */
         .rango-badge {
             display: inline-block;
             padding: 4px 14px;
@@ -935,8 +1143,26 @@
             border: 1px solid var(--border-color);
         }
 
+        .rango-badge.owner {
+            background: rgba(243, 156, 18, 0.2);
+            color: #f39c12;
+            border: 1px solid rgba(243, 156, 18, 0.2);
+        }
+
+        .rango-badge.admin {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .rango-badge.helper {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
         .usuarios-lista {
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
             margin-top: 12px;
         }
@@ -1028,7 +1254,9 @@
             background: rgba(231, 76, 60, 0.2);
         }
 
-        /* ===== PANEL STAFF ===== */
+        /* ========================================
+           PANEL STAFF
+           ======================================== */
         .staff-panel {
             background: var(--dark-card);
             backdrop-filter: blur(20px);
@@ -1128,7 +1356,8 @@
         }
 
         .staff-panel .form-group input,
-        .staff-panel .form-group textarea {
+        .staff-panel .form-group textarea,
+        .staff-panel .form-group select {
             width: 100%;
             padding: 12px 16px;
             background: rgba(255, 255, 255, 0.04);
@@ -1141,13 +1370,19 @@
             font-family: 'Inter', sans-serif;
         }
 
+        .staff-panel .form-group select option {
+            background: #1a1535;
+            color: var(--text-primary);
+        }
+
         .staff-panel .form-group textarea {
             min-height: 90px;
             resize: vertical;
         }
 
         .staff-panel .form-group input:focus,
-        .staff-panel .form-group textarea:focus {
+        .staff-panel .form-group textarea:focus,
+        .staff-panel .form-group select:focus {
             border-color: var(--primary);
         }
 
@@ -1220,6 +1455,16 @@
         .staff-panel .btn-warning:hover {
             background: #e67e22;
             box-shadow: 0 8px 30px rgba(243, 156, 18, 0.2);
+        }
+
+        .staff-panel .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .staff-panel .btn-danger:hover {
+            background: #c0392b;
+            box-shadow: 0 8px 30px rgba(231, 76, 60, 0.2);
         }
 
         .staff-panel .upload-options {
@@ -1296,7 +1541,9 @@
 
         .staff-panel .drafts-section h3 i { color: #f39c12; }
 
-        /* ===== DISCORD ===== */
+        /* ========================================
+           DISCORD
+           ======================================== */
         .discord-page {
             text-align: center;
             padding: 60px 40px;
@@ -1355,7 +1602,9 @@
             background: #4752c4;
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
         @media (max-width: 1024px) {
             .hero h1 { font-size: 2.8rem; }
         }
@@ -1396,7 +1645,7 @@
 
             .hero h1 { font-size: 2.2rem; }
 
-            .files-grid { grid-template-columns: 1fr; }
+            .post-card { padding: 20px; }
 
             .modal { padding: 32px 24px; }
 
@@ -1444,6 +1693,10 @@
                 text-align: center;
                 min-width: 80px;
             }
+
+            .comment-input-wrapper {
+                flex-direction: column;
+            }
         }
 
         .empty-state {
@@ -1475,6 +1728,35 @@
         }
 
         .file-info-display i { color: var(--primary-light); }
+
+        /* ========================================
+           NOTIFICACIÓN TOAST
+           ======================================== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 28px;
+            background: var(--dark-card);
+            backdrop-filter: blur(20px);
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            z-index: 99999;
+            animation: slideUp 0.4s ease;
+            max-width: 400px;
+        }
+
+        .toast.success { border-left: 4px solid #2ecc71; }
+        .toast.error { border-left: 4px solid #e74c3c; }
+        .toast.info { border-left: 4px solid #3498db; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -1496,6 +1778,7 @@
         <li><a onclick="showPage('vip')" data-page="vip">VIP</a></li>
         <li><a onclick="showPage('supervip')" data-page="supervip">Super VIP</a></li>
         <li><a onclick="showPage('megavip')" data-page="megavip">Mega VIP</a></li>
+        <li><a onclick="showPage('anuncios')" data-page="anuncios">📢 Anuncios</a></li>
         <li><a class="discord-link" onclick="showPage('discord')" data-page="discord">
             <i class="fab fa-discord"></i> Discord
         </a></li>
@@ -1511,6 +1794,7 @@
 <!-- ===== CONTENIDO ===== -->
 <div class="main-container">
 
+    <!-- ===== INICIO ===== -->
     <div id="page-home" class="page-section active">
         <div class="hero">
             <div class="hero-badge"><i class="fas fa-rocket"></i> Comunidad de Minecraft</div>
@@ -1525,6 +1809,7 @@
         <div id="publicFiles" class="files-grid"></div>
     </div>
 
+    <!-- ===== VIP ===== -->
     <div id="page-vip" class="page-section">
         <div class="vip-error" id="vipError">
             <div class="error-icon"><i class="fas fa-crown"></i></div>
@@ -1545,6 +1830,7 @@
         </div>
     </div>
 
+    <!-- ===== SUPER VIP ===== -->
     <div id="page-supervip" class="page-section">
         <div class="vip-error" id="superVipError">
             <div class="error-icon"><i class="fas fa-star"></i></div>
@@ -1565,6 +1851,7 @@
         </div>
     </div>
 
+    <!-- ===== MEGA VIP ===== -->
     <div id="page-megavip" class="page-section">
         <div class="vip-error" id="megaVipError">
             <div class="error-icon"><i class="fas fa-gem"></i></div>
@@ -1585,6 +1872,41 @@
         </div>
     </div>
 
+    <!-- ===== ANUNCIOS ===== -->
+    <div id="page-anuncios" class="page-section">
+        <div class="section-header">
+            <div class="icon"><i class="fas fa-bullhorn"></i></div>
+            <h2>Tablón de Anuncios</h2>
+            <span class="badge-count" id="anunciosCount">0 anuncios</span>
+        </div>
+
+        <!-- Formulario para crear anuncio (solo staff) -->
+        <div id="createAnuncioForm" class="create-post-form" style="display:none;">
+            <h3 style="color: var(--text-primary); margin-bottom: 16px;">
+                <i class="fas fa-plus-circle" style="color: var(--primary-light);"></i> Crear Nuevo Anuncio
+            </h3>
+            <div class="form-group">
+                <label>Título del anuncio</label>
+                <input type="text" id="anuncioTitulo" placeholder="Ej: ¡Nuevo evento este sábado!" />
+            </div>
+            <div class="form-group">
+                <label>Contenido (Markdown soportado)</label>
+                <textarea id="anuncioContenido" placeholder="**Descripción** del anuncio&#10;*Texto en cursiva*"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Imagen (URL opcional)</label>
+                <input type="text" id="anuncioImagen" placeholder="https://ejemplo.com/imagen.png" />
+            </div>
+            <button class="btn-primary" onclick="publicarAnuncio()">
+                <i class="fas fa-bullhorn"></i> Publicar Anuncio
+            </button>
+        </div>
+
+        <!-- Lista de anuncios -->
+        <div id="anunciosList" class="posts-grid"></div>
+    </div>
+
+    <!-- ===== DISCORD ===== -->
     <div id="page-discord" class="page-section">
         <div class="discord-page">
             <div class="discord-icon"><i class="fab fa-discord"></i></div>
@@ -1606,18 +1928,22 @@
         </button>
     </div>
     <div class="staff-tabs">
-        <button class="active" onclick="switchStaffTab('subir')" data-tab="subir">
+        <button onclick="switchStaffTab('subir')" data-tab="subir">
             <i class="fas fa-upload"></i> Subir Recurso
         </button>
         <button onclick="switchStaffTab('rangos')" data-tab="rangos">
             <i class="fas fa-crown"></i> Gestionar Rangos
+        </button>
+        <button onclick="switchStaffTab('staffroles')" data-tab="staffroles">
+            <i class="fas fa-user-tag"></i> Roles Staff
         </button>
         <button onclick="switchStaffTab('borradores')" data-tab="borradores">
             <i class="fas fa-archive"></i> Borradores
         </button>
     </div>
 
-    <div id="staffTab-subir" class="staff-tab-content active">
+    <!-- TAB: SUBIR RECURSO -->
+    <div id="staffTab-subir" class="staff-tab-content">
         <div class="form-group">
             <label><i class="fas fa-file-upload"></i> Subir Plugin (archivo .jar o .zip)</label>
             <input type="file" id="fileUpload" accept=".jar,.zip,.rar,.7z" />
@@ -1674,6 +2000,7 @@
         </div>
     </div>
 
+    <!-- TAB: GESTIONAR RANGOS VIP -->
     <div id="staffTab-rangos" class="staff-tab-content">
         <h3 style="color: var(--text-primary); margin-bottom: 16px;">
             <i class="fas fa-users-cog"></i> Gestionar Rangos VIP
@@ -1688,6 +2015,41 @@
         <div class="usuarios-lista" id="usuariosList"></div>
     </div>
 
+    <!-- TAB: ROLES STAFF -->
+    <div id="staffTab-staffroles" class="staff-tab-content">
+        <h3 style="color: var(--text-primary); margin-bottom: 16px;">
+            <i class="fas fa-user-tag"></i> Gestionar Roles de Staff
+        </h3>
+        <p style="color: var(--text-secondary); margin-bottom: 16px;">
+            Asigna roles de staff a los usuarios. Solo el <strong>Dueño</strong> puede asignar roles.
+        </p>
+
+        <div class="form-group">
+            <label>Seleccionar usuario</label>
+            <select id="staffUserSelect">
+                <option value="">-- Seleccionar usuario --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Rol de staff</label>
+            <select id="staffRoleSelect">
+                <option value="none">Sin rol</option>
+                <option value="helper">Helper</option>
+                <option value="admin">Administrador</option>
+                <option value="owner">Dueño</option>
+            </select>
+        </div>
+        <button class="btn btn-success" onclick="asignarRolStaff()">
+            <i class="fas fa-save"></i> Asignar Rol
+        </button>
+
+        <div style="margin-top: 24px;">
+            <h4 style="color: var(--text-secondary); margin-bottom: 12px;">Usuarios con rol de staff</h4>
+            <div id="staffUsersList" class="usuarios-lista"></div>
+        </div>
+    </div>
+
+    <!-- TAB: BORRADORES -->
     <div id="staffTab-borradores" class="staff-tab-content">
         <h3 style="color: var(--text-primary); margin-bottom: 16px;">
             <i class="fas fa-archive"></i> Mis Borradores
@@ -1762,9 +2124,28 @@
     </div>
 </div>
 
+<!-- ===== MODAL PARA RESPONDER COMENTARIOS ===== -->
+<div class="modal-overlay" id="replyModal">
+    <div class="modal" style="max-width: 500px;">
+        <div class="modal-header">
+            <h2><i class="fas fa-reply"></i> Responder Comentario</h2>
+            <button class="close-modal" onclick="closeReplyModal()">&times;</button>
+        </div>
+        <p class="subtitle" id="replyToUser">Respondiendo a: <strong></strong></p>
+        <div class="form-group">
+            <label>Tu respuesta</label>
+            <input type="text" id="replyInput" placeholder="Escribe tu respuesta..." />
+        </div>
+        <button class="btn-primary" onclick="sendReply()">
+            <i class="fas fa-paper-plane"></i> Enviar Respuesta
+        </button>
+        <div class="auth-message" id="replyMessage"></div>
+    </div>
+</div>
+
 <script>
     // ========================================
-    //  CONFIGURACIÓN DE FIREBASE (TU CONFIGURACIÓN)
+    //  CONFIGURACIÓN DE FIREBASE
     // ========================================
     const firebaseConfig = {
         apiKey: "AIzaSyDN5ow7IHmRd1G_Ftfid_UV2xHigyVaYsc",
@@ -1777,7 +2158,6 @@
         measurementId: "G-75CMPG0HDV"
     };
 
-    // Inicializar Firebase
     firebase.initializeApp(firebaseConfig);
     console.log('🔥 Firebase inicializado correctamente');
 
@@ -1786,14 +2166,19 @@
     // ========================================
     const STAFF_USER = 'Oliver';
     const STAFF_PASS = 'k936245';
-    const STORAGE_FILES = 'lunatic_files_v10';
-    const STORAGE_USERS = 'lunatic_users_v10';
-    const STORAGE_RANGOS = 'lunatic_ranks_v10';
+    const STORAGE_FILES = 'lunatic_files_v11';
+    const STORAGE_USERS = 'lunatic_users_v11';
+    const STORAGE_RANGOS = 'lunatic_ranks_v11';
+    const STORAGE_ANUNCIOS = 'lunatic_anuncios_v11';
+    const STORAGE_STAFF_ROLES = 'lunatic_staff_roles_v11';
+    const STORAGE_COMMENTS = 'lunatic_comments_v11';
 
     let currentUser = null;
     let currentUserEmail = null;
     let isStaff = false;
+    let userStaffRole = null; // 'owner', 'admin', 'helper'
     let uploadedFileData = null;
+    let replyData = null;
 
     // ========================================
     //  INICIALIZACIÓN
@@ -1803,10 +2188,12 @@
         createParticles();
         loadSampleFiles();
         renderAllFiles();
+        renderAnuncios();
         checkSession();
         renderUsuarios();
-        
-        // Escuchar cambios de autenticación
+        renderStaffUsers();
+        updateStaffSelect();
+
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 const displayName = user.displayName || user.email.split('@')[0];
@@ -1825,21 +2212,29 @@
                 localStorage.setItem('lunatic_session_user', fbUser);
                 localStorage.setItem('lunatic_session_email', email);
                 
-                if (email === 'dominguezgutierrezadrian@gmail.com' || displayName === STAFF_USER) {
+                // Verificar rol de staff
+                const staffRoles = getStaffRoles();
+                userStaffRole = staffRoles[fbUser] || null;
+                
+                if (email === 'dominguezgutierrezadrian@gmail.com' || displayName === STAFF_USER || userStaffRole) {
                     isStaff = true;
                     document.getElementById('staffPanel').classList.add('visible');
                     document.getElementById('authBtnText').textContent = '👑 Staff';
                     document.getElementById('authBtn').classList.add('logged', 'staff-mode');
                     renderDrafts();
+                    mostrarFormularioAnuncio();
                 } else {
                     isStaff = false;
                     document.getElementById('authBtnText').textContent = '👤 ' + displayName;
                     document.getElementById('authBtn').classList.add('logged');
                     document.getElementById('authBtn').classList.remove('staff-mode');
                     document.getElementById('staffPanel').classList.remove('visible');
+                    ocultarFormularioAnuncio();
                 }
                 
                 renderUsuarios();
+                renderStaffUsers();
+                updateStaffSelect();
                 checkVipAccessOnPage();
             }
         });
@@ -1906,6 +2301,7 @@
         if (page === 'vip') checkVipAccess('vip');
         else if (page === 'supervip') checkVipAccess('supervip');
         else if (page === 'megavip') checkVipAccess('megavip');
+        else if (page === 'anuncios') renderAnuncios();
     }
 
     // ========================================
@@ -1985,116 +2381,527 @@
         else if (id === 'page-megavip') checkVipAccess('megavip');
     }
 
-    function renderUsuarios() {
+    // ========================================
+    //  SISTEMA DE ROLES STAFF
+    // ========================================
+    function getStaffRoles() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_STAFF_ROLES)) || {}; }
+        catch { return {}; }
+    }
+
+    function saveStaffRoles(roles) {
+        localStorage.setItem(STORAGE_STAFF_ROLES, JSON.stringify(roles));
+    }
+
+    function getUserStaffRole(username) {
+        const roles = getStaffRoles();
+        return roles[username] || null;
+    }
+
+    function canDeletePosts() {
+        return userStaffRole === 'owner' || userStaffRole === 'admin';
+    }
+
+    function canAssignStaff() {
+        return userStaffRole === 'owner';
+    }
+
+    function canComment() {
+        return isStaff || userStaffRole === 'helper';
+    }
+
+    function canReplyToComments() {
+        return isStaff || userStaffRole === 'helper' || userStaffRole === 'admin' || userStaffRole === 'owner';
+    }
+
+    function renderStaffUsers() {
+        const roles = getStaffRoles();
         const users = getUsers();
-        const rangos = getRangos();
-        const container = document.getElementById('usuariosList');
-        const searchTerm = document.getElementById('searchUser')?.value.toLowerCase() || '';
+        const container = document.getElementById('staffUsersList');
         
-        const userList = Object.keys(users);
-        if (userList.length === 0) {
+        const staffUsers = Object.keys(roles).filter(u => roles[u] && roles[u] !== 'none');
+        
+        if (staffUsers.length === 0) {
             container.innerHTML = `
-                <div class="empty-state" style="padding: 30px;">
-                    <i class="fas fa-users"></i>
-                    <p>No hay usuarios registrados aún</p>
+                <div class="empty-state" style="padding: 20px;">
+                    <i class="fas fa-user-tag"></i>
+                    <p>No hay usuarios con roles de staff</p>
                 </div>
             `;
             return;
         }
 
-        let filteredUsers = userList;
-        if (searchTerm) {
-            filteredUsers = userList.filter(u => u.toLowerCase().includes(searchTerm));
-        }
-
-        if (filteredUsers.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state" style="padding: 30px;">
-                    <i class="fas fa-search"></i>
-                    <p>No se encontraron usuarios</p>
-                </div>
-            `;
-            return;
-        }
-
-        container.innerHTML = filteredUsers.map(user => {
-            const rango = rangos[user] || null;
-            let badge = '<span class="rango-badge none">Sin rango</span>';
-            if (rango === 'vip') badge = '<span class="rango-badge vip">👑 VIP</span>';
-            else if (rango === 'supervip') badge = '<span class="rango-badge super">⭐ Super VIP</span>';
-            else if (rango === 'megavip') badge = '<span class="rango-badge mega">💎 Mega VIP</span>';
-
-            const isAdmin = user === STAFF_USER || user === 'firebase_Oliver' || user === 'firebase_dominguezgutierrezadrian_gmail_com';
-            const isGoogleUser = user.startsWith('google_');
-            const isFirebaseUser = user.startsWith('firebase_');
-
-            let userDisplay = user;
-            if (isFirebaseUser) {
-                userDisplay = user.replace('firebase_', '');
-            } else if (isGoogleUser) {
-                userDisplay = user.replace('google_', '');
-            }
-
+        container.innerHTML = staffUsers.map(user => {
+            const role = roles[user];
+            const roleName = role === 'owner' ? '👑 Dueño' : role === 'admin' ? '⚡ Administrador' : '🛡️ Helper';
+            const roleClass = role === 'owner' ? 'owner' : role === 'admin' ? 'admin' : 'helper';
+            const userDisplay = user.replace('firebase_', '').replace('google_', '');
+            
             return `
                 <div class="usuario-item">
                     <div class="user-info">
-                        <div class="user-icon">
-                            ${isFirebaseUser ? '<i class="fas fa-fire" style="color:#f39c12;"></i>' : 
-                              isGoogleUser ? '<i class="fab fa-google"></i>' : 
-                              '<i class="fas fa-user"></i>'}
-                        </div>
+                        <div class="user-icon"><i class="fas fa-user-shield"></i></div>
                         <div>
                             <strong>${userDisplay}</strong>
-                            ${isAdmin ? ' <span style="color:#f39c12; font-size:0.7rem;">(Staff)</span>' : ''}
-                            ${isFirebaseUser ? ' <span style="color:#f39c12; font-size:0.7rem;">(Firebase)</span>' : ''}
-                            ${isGoogleUser ? ' <span style="color:#4285F4; font-size:0.7rem;">(Google)</span>' : ''}
-                            <div style="margin-top:4px;">${badge}</div>
+                            <span class="rango-badge ${roleClass}">${roleName}</span>
                         </div>
                     </div>
-                    ${!isAdmin ? `
+                    ${canAssignStaff() && user !== 'firebase_Oliver' ? `
                         <div class="user-actions">
-                            <button class="btn-vip" onclick="asignarRango('${user}', 'vip')" title="Dar VIP">
-                                <i class="fas fa-crown"></i>
+                            <button class="btn-remove" onclick="quitarRolStaff('${user}')">
+                                <i class="fas fa-times"></i> Quitar rol
                             </button>
-                            <button class="btn-super" onclick="asignarRango('${user}', 'supervip')" title="Dar Super VIP">
-                                <i class="fas fa-star"></i>
-                            </button>
-                            <button class="btn-mega" onclick="asignarRango('${user}', 'megavip')" title="Dar Mega VIP">
-                                <i class="fas fa-gem"></i>
-                            </button>
-                            ${rango ? `<button class="btn-remove" onclick="asignarRango('${user}', null)" title="Quitar rango">
-                                <i class="fas fa-times"></i>
-                            </button>` : ''}
                         </div>
-                    ` : `
-                        <div style="color: var(--text-muted); font-size:0.8rem;">
-                            <i class="fas fa-shield-alt"></i> Staff
-                        </div>
-                    `}
+                    ` : ''}
                 </div>
             `;
         }).join('');
     }
 
-    function filterUsers() {
-        renderUsuarios();
+    function updateStaffSelect() {
+        const select = document.getElementById('staffUserSelect');
+        const users = getUsers();
+        const roles = getStaffRoles();
+        
+        // Limpiar opciones existentes (excepto la primera)
+        while (select.options.length > 1) {
+            select.remove(1);
+        }
+        
+        Object.keys(users).forEach(user => {
+            if (user === 'firebase_Oliver') return; // No mostrar al dueño en la lista
+            const userDisplay = user.replace('firebase_', '').replace('google_', '');
+            const option = document.createElement('option');
+            option.value = user;
+            option.textContent = userDisplay + (roles[user] ? ' (' + roles[user] + ')' : '');
+            select.appendChild(option);
+        });
     }
 
-    function asignarRango(username, rango) {
-        if (!isStaff) return;
-        if (username === STAFF_USER || username === 'firebase_Oliver') return;
+    function asignarRolStaff() {
+        if (!canAssignStaff()) {
+            showToast('⚠️ Solo el Dueño puede asignar roles de staff', 'error');
+            return;
+        }
+
+        const user = document.getElementById('staffUserSelect').value;
+        const role = document.getElementById('staffRoleSelect').value;
+
+        if (!user) {
+            showToast('⚠️ Selecciona un usuario', 'error');
+            return;
+        }
+
+        const roles = getStaffRoles();
+        if (role === 'none') {
+            delete roles[user];
+        } else {
+            roles[user] = role;
+        }
+        saveStaffRoles(roles);
         
-        setUserRango(username, rango);
-        const rangoNombre = rango === 'vip' ? 'VIP' : rango === 'supervip' ? 'Super VIP' : rango === 'megavip' ? 'Mega VIP' : 'ningún rango';
-        alert(`✅ Rango ${rangoNombre} asignado a ${username}`);
-        renderUsuarios();
+        // Si el usuario es el que está logueado, actualizar su rol
+        if (user === currentUser) {
+            userStaffRole = role === 'none' ? null : role;
+            if (role === 'none') {
+                isStaff = false;
+                document.getElementById('staffPanel').classList.remove('visible');
+                document.getElementById('authBtnText').textContent = '👤 ' + user.replace('firebase_', '');
+                document.getElementById('authBtn').classList.remove('staff-mode');
+                ocultarFormularioAnuncio();
+            } else {
+                isStaff = true;
+                document.getElementById('staffPanel').classList.add('visible');
+                document.getElementById('authBtnText').textContent = '👑 Staff';
+                document.getElementById('authBtn').classList.add('logged', 'staff-mode');
+                mostrarFormularioAnuncio();
+            }
+        }
+
+        renderStaffUsers();
+        updateStaffSelect();
+        showToast('✅ Rol asignado correctamente', 'success');
     }
+
+    function quitarRolStaff(user) {
+        if (!canAssignStaff()) {
+            showToast('⚠️ Solo el Dueño puede quitar roles de staff', 'error');
+            return;
+        }
+
+        if (!confirm('¿Quitar el rol de staff a este usuario?')) return;
+
+        const roles = getStaffRoles();
+        delete roles[user];
+        saveStaffRoles(roles);
+        
+        if (user === currentUser) {
+            userStaffRole = null;
+            isStaff = false;
+            document.getElementById('staffPanel').classList.remove('visible');
+            document.getElementById('authBtnText').textContent = '👤 ' + user.replace('firebase_', '');
+            document.getElementById('authBtn').classList.remove('staff-mode');
+            ocultarFormularioAnuncio();
+        }
+
+        renderStaffUsers();
+        updateStaffSelect();
+        showToast('✅ Rol de staff eliminado', 'success');
+    }
+
+    // ========================================
+    //  SISTEMA DE ANUNCIOS
+    // ========================================
+    function getAnuncios() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_ANUNCIOS)) || []; }
+        catch { return []; }
+    }
+
+    function saveAnuncios(anuncios) {
+        localStorage.setItem(STORAGE_ANUNCIOS, JSON.stringify(anuncios));
+        renderAnuncios();
+    }
+
+    function renderAnuncios() {
+        const anuncios = getAnuncios();
+        const container = document.getElementById('anunciosList');
+        document.getElementById('anunciosCount').textContent = anuncios.length + ' anuncios';
+
+        if (anuncios.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-bullhorn"></i>
+                    <p>No hay anuncios publicados aún</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = anuncios.map((anuncio, index) => {
+            const contentHTML = markdownToHTML(anuncio.contenido);
+            const imageHTML = anuncio.imagen ? 
+                `<img src="${anuncio.imagen}" alt="Imagen del anuncio" class="post-image" onerror="this.style.display='none'" />` : '';
+            const autorNombre = anuncio.autor ? anuncio.autor.replace('firebase_', '').replace('google_', '') : 'Staff';
+            const autorRol = anuncio.autor ? getUserStaffRole(anuncio.autor) : null;
+            
+            let rolBadge = '';
+            if (autorRol === 'owner') rolBadge = '<span class="staff-badge owner">👑 Dueño</span>';
+            else if (autorRol === 'admin') rolBadge = '<span class="staff-badge admin">⚡ Admin</span>';
+            else if (autorRol === 'helper') rolBadge = '<span class="staff-badge helper">🛡️ Helper</span>';
+            else rolBadge = '<span class="staff-badge staff">📢 Staff</span>';
+
+            // Obtener comentarios del anuncio
+            const comentarios = getComentarios('anuncio_' + anuncio.id);
+            
+            // Verificar permisos para eliminar
+            const puedeEliminar = (anuncio.autor === currentUser && canDeletePosts()) || 
+                                  (userStaffRole === 'owner') || 
+                                  (anuncio.autor === currentUser && userStaffRole === 'admin');
+
+            return `
+                <div class="post-card" id="anuncio-${anuncio.id}">
+                    <div class="post-header">
+                        <div>
+                            <div class="post-title">${anuncio.titulo}</div>
+                            <div class="post-meta">
+                                ${rolBadge}
+                                <span>${autorNombre}</span>
+                                <span>${new Date(anuncio.timestamp).toLocaleDateString()}</span>
+                                <span>💬 ${comentarios.length} comentarios</span>
+                            </div>
+                        </div>
+                    </div>
+                    ${imageHTML}
+                    <div class="post-content">${contentHTML}</div>
+                    <div class="post-actions">
+                        <button class="btn-comment" onclick="toggleComments('${anuncio.id}', 'anuncio')">
+                            <i class="fas fa-comment"></i> Comentar (${comentarios.length})
+                        </button>
+                        ${puedeEliminar ? `
+                            <button class="btn-delete" onclick="eliminarAnuncio(${anuncio.id})">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        ` : ''}
+                    </div>
+                    <div class="comments-section" id="comments-anuncio_${anuncio.id}" style="display:none;">
+                        ${renderComentarios(comentarios, 'anuncio_' + anuncio.id)}
+                        <div class="comment-input-wrapper">
+                            <input type="text" id="commentInput-anuncio_${anuncio.id}" placeholder="Escribe un comentario..." />
+                            <button onclick="agregarComentario('anuncio_${anuncio.id}', '${anuncio.id}')">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function mostrarFormularioAnuncio() {
+        const form = document.getElementById('createAnuncioForm');
+        if (form) form.style.display = 'block';
+    }
+
+    function ocultarFormularioAnuncio() {
+        const form = document.getElementById('createAnuncioForm');
+        if (form) form.style.display = 'none';
+    }
+
+    function publicarAnuncio() {
+        if (!isStaff) {
+            showToast('⚠️ Solo el staff puede publicar anuncios', 'error');
+            return;
+        }
+
+        const titulo = document.getElementById('anuncioTitulo').value.trim();
+        const contenido = document.getElementById('anuncioContenido').value.trim();
+        const imagen = document.getElementById('anuncioImagen').value.trim();
+
+        if (!titulo || !contenido) {
+            showToast('⚠️ Completa el título y el contenido', 'error');
+            return;
+        }
+
+        const anuncios = getAnuncios();
+        const nuevoAnuncio = {
+            id: Date.now() + Math.random() * 1000,
+            titulo: titulo,
+            contenido: contenido,
+            imagen: imagen,
+            autor: currentUser,
+            timestamp: Date.now()
+        };
+
+        anuncios.unshift(nuevoAnuncio);
+        saveAnuncios(anuncios);
+        
+        document.getElementById('anuncioTitulo').value = '';
+        document.getElementById('anuncioContenido').value = '';
+        document.getElementById('anuncioImagen').value = '';
+        
+        showToast('✅ Anuncio publicado correctamente', 'success');
+        renderAnuncios();
+    }
+
+    function eliminarAnuncio(id) {
+        if (!canDeletePosts() && userStaffRole !== 'owner') {
+            showToast('⚠️ No tienes permisos para eliminar anuncios', 'error');
+            return;
+        }
+
+        if (!confirm('¿Eliminar este anuncio?')) return;
+
+        let anuncios = getAnuncios();
+        anuncios = anuncios.filter(a => a.id !== id);
+        saveAnuncios(anuncios);
+        showToast('✅ Anuncio eliminado', 'success');
+        renderAnuncios();
+    }
+
+    // ========================================
+    //  SISTEMA DE COMENTARIOS
+    // ========================================
+    function getComentarios(postId) {
+        try {
+            const all = JSON.parse(localStorage.getItem(STORAGE_COMMENTS)) || {};
+            return all[postId] || [];
+        } catch { return []; }
+    }
+
+    function saveComentarios(postId, comentarios) {
+        const all = JSON.parse(localStorage.getItem(STORAGE_COMMENTS)) || {};
+        all[postId] = comentarios;
+        localStorage.setItem(STORAGE_COMMENTS, JSON.stringify(all));
+    }
+
+    function renderComentarios(comentarios, postId) {
+        if (comentarios.length === 0) {
+            return `<p style="color: var(--text-muted); font-size: 0.85rem; padding: 8px 0;">No hay comentarios aún.</p>`;
+        }
+
+        return comentarios.map(com => {
+            const autorNombre = com.autor ? com.autor.replace('firebase_', '').replace('google_', '') : 'Usuario';
+            const autorRol = com.autor ? getUserStaffRole(com.autor) : null;
+            let rolBadge = '';
+            if (autorRol === 'owner') rolBadge = '<span class="role-badge owner">Dueño</span>';
+            else if (autorRol === 'admin') rolBadge = '<span class="role-badge admin">Admin</span>';
+            else if (autorRol === 'helper') rolBadge = '<span class="role-badge helper">Helper</span>';
+
+            const puedeEliminar = com.autor === currentUser || canDeletePosts() || userStaffRole === 'owner';
+            const puedeResponder = canReplyToComments() && !com.esRespuesta;
+
+            let respuestasHTML = '';
+            if (com.respuestas && com.respuestas.length > 0) {
+                respuestasHTML = com.respuestas.map(res => {
+                    const resAutor = res.autor ? res.autor.replace('firebase_', '').replace('google_', '') : 'Usuario';
+                    const resRol = res.autor ? getUserStaffRole(res.autor) : null;
+                    let resBadge = '';
+                    if (resRol === 'owner') resBadge = '<span class="role-badge owner">Dueño</span>';
+                    else if (resRol === 'admin') resBadge = '<span class="role-badge admin">Admin</span>';
+                    else if (resRol === 'helper') resBadge = '<span class="role-badge helper">Helper</span>';
+
+                    return `
+                        <div class="comment" style="margin-left: 20px; border-left: 2px solid var(--border-color); padding-left: 12px;">
+                            <div class="comment-body">
+                                <div class="comment-author">
+                                    ${resAutor} ${resBadge}
+                                </div>
+                                <div class="comment-text">${res.texto}</div>
+                                <div class="comment-time">${new Date(res.timestamp).toLocaleString()}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            return `
+                <div class="comment">
+                    <div class="comment-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="comment-body">
+                        <div class="comment-author">
+                            ${autorNombre} ${rolBadge}
+                            ${com.esRespuesta ? ' <span style="color:var(--text-muted); font-size:0.7rem;">(Respuesta)</span>' : ''}
+                        </div>
+                        <div class="comment-text">${com.texto}</div>
+                        <div class="comment-time">${new Date(com.timestamp).toLocaleString()}</div>
+                        <div class="comment-actions">
+                            ${puedeResponder ? `<button onclick="openReplyModal('${postId}', '${com.autor}', '${com.id}')">
+                                <i class="fas fa-reply"></i> Responder
+                            </button>` : ''}
+                            ${puedeEliminar ? `<button class="btn-delete-comment" onclick="eliminarComentario('${postId}', '${com.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>` : ''}
+                        </div>
+                        ${respuestasHTML}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function agregarComentario(postId, anuncioId) {
+        if (!currentUser) {
+            showToast('⚠️ Inicia sesión para comentar', 'error');
+            return;
+        }
+
+        const input = document.getElementById('commentInput-' + postId);
+        const texto = input.value.trim();
+
+        if (!texto) {
+            showToast('⚠️ Escribe un comentario', 'error');
+            return;
+        }
+
+        const comentarios = getComentarios(postId);
+        const nuevoComentario = {
+            id: Date.now() + Math.random() * 1000,
+            autor: currentUser,
+            texto: texto,
+            timestamp: Date.now(),
+            esRespuesta: false,
+            respuestas: []
+        };
+
+        comentarios.push(nuevoComentario);
+        saveComentarios(postId, comentarios);
+        input.value = '';
+        
+        // Re-renderizar
+        if (anuncioId) {
+            renderAnuncios();
+        }
+        showToast('✅ Comentario agregado', 'success');
+    }
+
+    function eliminarComentario(postId, commentId) {
+        if (!confirm('¿Eliminar este comentario?')) return;
+
+        const comentarios = getComentarios(postId);
+        const index = comentarios.findIndex(c => c.id === commentId);
+        if (index !== -1) {
+            comentarios.splice(index, 1);
+            saveComentarios(postId, comentarios);
+            renderAnuncios();
+            showToast('✅ Comentario eliminado', 'success');
+        }
+    }
+
+    function toggleComments(anuncioId, tipo) {
+        const container = document.getElementById('comments-anuncio_' + anuncioId);
+        if (container) {
+            const isVisible = container.style.display === 'block';
+            container.style.display = isVisible ? 'none' : 'block';
+            if (!isVisible) {
+                // Enfocar el input de comentario
+                const input = document.getElementById('commentInput-anuncio_' + anuncioId);
+                if (input) input.focus();
+            }
+        }
+    }
+
+    // ========================================
+    //  SISTEMA DE RESPUESTAS A COMENTARIOS
+    // ========================================
+    function openReplyModal(postId, autor, commentId) {
+        if (!canReplyToComments()) {
+            showToast('⚠️ Solo el staff puede responder comentarios', 'error');
+            return;
+        }
+
+        replyData = { postId, autor, commentId };
+        document.getElementById('replyToUser').innerHTML = 'Respondiendo a: <strong>' + autor.replace('firebase_', '').replace('google_', '') + '</strong>';
+        document.getElementById('replyInput').value = '';
+        document.getElementById('replyMessage').className = 'auth-message';
+        document.getElementById('replyMessage').textContent = '';
+        document.getElementById('replyModal').classList.add('show');
+    }
+
+    function closeReplyModal() {
+        document.getElementById('replyModal').classList.remove('show');
+        replyData = null;
+    }
+
+    function sendReply() {
+        if (!replyData) return;
+
+        const texto = document.getElementById('replyInput').value.trim();
+        if (!texto) {
+            document.getElementById('replyMessage').textContent = '⚠️ Escribe una respuesta';
+            document.getElementById('replyMessage').className = 'auth-message error';
+            return;
+        }
+
+        const comentarios = getComentarios(replyData.postId);
+        const commentIndex = comentarios.findIndex(c => c.id === replyData.commentId);
+        
+        if (commentIndex !== -1) {
+            if (!comentarios[commentIndex].respuestas) {
+                comentarios[commentIndex].respuestas = [];
+            }
+            comentarios[commentIndex].respuestas.push({
+                id: Date.now() + Math.random() * 1000,
+                autor: currentUser,
+                texto: texto,
+                timestamp: Date.now()
+            });
+            saveComentarios(replyData.postId, comentarios);
+            renderAnuncios();
+            closeReplyModal();
+            showToast('✅ Respuesta enviada', 'success');
+        }
+    }
+
+    // Cerrar modal de reply con click externo
+    document.getElementById('replyModal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeReplyModal();
+    });
 
     // ========================================
     //  AUTH CON FIREBASE
     // ========================================
-    
-    // AUTH CON GOOGLE
     function loginWithGoogle() {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider)
@@ -2102,15 +2909,13 @@
                 const user = result.user;
                 const displayName = user.displayName || user.email;
                 closeAuthModal();
-                alert('✅ Has iniciado sesión con Google como: ' + displayName);
+                showToast('✅ Has iniciado sesión con Google como: ' + displayName, 'success');
             })
             .catch((error) => {
-                console.error('Error en Google Login:', error);
-                showAuthMessage('❌ Error al iniciar sesión con Google: ' + error.message, 'error');
+                showToast('❌ Error al iniciar sesión con Google: ' + error.message, 'error');
             });
     }
 
-    // REGISTRO CON EMAIL Y CONTRASEÑA
     function authRegister() {
         const email = document.getElementById('authEmail').value.trim();
         const pass = document.getElementById('authPass').value.trim();
@@ -2162,28 +2967,12 @@
             });
     }
 
-    // INICIO DE SESIÓN CON EMAIL Y CONTRASEÑA
     function authLogin() {
         const email = document.getElementById('authEmail').value.trim();
         const pass = document.getElementById('authPass').value.trim();
 
         if (!email || !pass) {
             showAuthMessage('⚠️ Completa todos los campos', 'error');
-            return;
-        }
-
-        // Verificar staff local
-        if (email === 'staff@lunatic.com' && pass === STAFF_PASS) {
-            currentUser = STAFF_USER;
-            isStaff = true;
-            localStorage.setItem('lunatic_session_user', STAFF_USER);
-            closeAuthModal();
-            document.getElementById('staffPanel').classList.add('visible');
-            document.getElementById('authBtnText').textContent = '👑 Staff';
-            document.getElementById('authBtn').classList.add('logged', 'staff-mode');
-            renderDrafts();
-            renderUsuarios();
-            checkVipAccessOnPage();
             return;
         }
 
@@ -2213,23 +3002,31 @@
                 
                 closeAuthModal();
                 
-                if (email === 'dominguezgutierrezadrian@gmail.com' || displayName === STAFF_USER) {
+                // Verificar rol de staff
+                const staffRoles = getStaffRoles();
+                userStaffRole = staffRoles[fbUser] || null;
+                
+                if (email === 'dominguezgutierrezadrian@gmail.com' || displayName === STAFF_USER || userStaffRole) {
                     isStaff = true;
                     document.getElementById('staffPanel').classList.add('visible');
                     document.getElementById('authBtnText').textContent = '👑 Staff';
                     document.getElementById('authBtn').classList.add('logged', 'staff-mode');
                     renderDrafts();
+                    mostrarFormularioAnuncio();
                 } else {
                     isStaff = false;
                     document.getElementById('authBtnText').textContent = '👤 ' + displayName;
                     document.getElementById('authBtn').classList.add('logged');
                     document.getElementById('authBtn').classList.remove('staff-mode');
                     document.getElementById('staffPanel').classList.remove('visible');
+                    ocultarFormularioAnuncio();
                 }
                 
                 renderUsuarios();
+                renderStaffUsers();
+                updateStaffSelect();
                 checkVipAccessOnPage();
-                alert('✅ ¡Bienvenido ' + displayName + '!');
+                showToast('✅ ¡Bienvenido ' + displayName + '!', 'success');
             })
             .catch((error) => {
                 let msg = error.message;
@@ -2246,7 +3043,6 @@
             });
     }
 
-    // RECUPERACIÓN DE CONTRASEÑA
     function openResetPassword() {
         closeAuthModal();
         document.getElementById('resetModal').classList.add('show');
@@ -2289,21 +3085,23 @@
             });
     }
 
-    // CERRAR SESIÓN
     function logoutStaff() {
         firebase.auth().signOut().then(() => {
             currentUser = null;
             isStaff = false;
+            userStaffRole = null;
             localStorage.removeItem('lunatic_session_user');
             localStorage.removeItem('lunatic_session_email');
             document.getElementById('staffPanel').classList.remove('visible');
             document.getElementById('authBtnText').textContent = 'Acceder';
             document.getElementById('authBtn').classList.remove('logged', 'staff-mode');
+            ocultarFormularioAnuncio();
             
             ['vip', 'supervip', 'megavip'].forEach(tipo => {
                 document.getElementById(tipo + 'Error').style.display = 'block';
                 document.getElementById(tipo + 'Content').style.display = 'none';
             });
+            showToast('👋 Sesión cerrada', 'info');
         }).catch((error) => {
             console.error('Error al cerrar sesión:', error);
         });
@@ -2347,36 +3145,159 @@
             currentUser = savedUser;
             currentUserEmail = savedEmail;
             
-            if (currentUser === STAFF_USER || currentUser === 'firebase_Oliver' || savedEmail === 'dominguezgutierrezadrian@gmail.com') {
+            const staffRoles = getStaffRoles();
+            userStaffRole = staffRoles[savedUser] || null;
+            
+            if (savedUser === 'firebase_Oliver' || savedEmail === 'dominguezgutierrezadrian@gmail.com' || userStaffRole) {
                 isStaff = true;
                 document.getElementById('staffPanel').classList.add('visible');
                 document.getElementById('authBtnText').textContent = '👑 Staff';
                 document.getElementById('authBtn').classList.add('logged', 'staff-mode');
                 renderDrafts();
+                mostrarFormularioAnuncio();
             } else {
                 const displayName = savedUser.replace('firebase_', '').replace('google_', '');
                 document.getElementById('authBtnText').textContent = '👤 ' + displayName;
                 document.getElementById('authBtn').classList.add('logged');
                 isStaff = false;
+                ocultarFormularioAnuncio();
             }
             setTimeout(() => checkVipAccessOnPage(), 100);
+            renderStaffUsers();
+            updateStaffSelect();
         }
     }
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closeAuthModal();
-            closeResetModal();
+    function renderUsuarios() {
+        const users = getUsers();
+        const rangos = getRangos();
+        const container = document.getElementById('usuariosList');
+        const searchTerm = document.getElementById('searchUser')?.value.toLowerCase() || '';
+        
+        const userList = Object.keys(users);
+        if (userList.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="padding: 30px;">
+                    <i class="fas fa-users"></i>
+                    <p>No hay usuarios registrados aún</p>
+                </div>
+            `;
+            return;
         }
-    });
 
-    document.getElementById('authModal').addEventListener('click', (e) => {
-        if (e.target === e.currentTarget) closeAuthModal();
-    });
+        let filteredUsers = userList;
+        if (searchTerm) {
+            filteredUsers = userList.filter(u => u.toLowerCase().includes(searchTerm));
+        }
 
-    document.getElementById('resetModal').addEventListener('click', (e) => {
-        if (e.target === e.currentTarget) closeResetModal();
-    });
+        if (filteredUsers.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="padding: 30px;">
+                    <i class="fas fa-search"></i>
+                    <p>No se encontraron usuarios</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = filteredUsers.map(user => {
+            const rango = rangos[user] || null;
+            let badge = '<span class="rango-badge none">Sin rango</span>';
+            if (rango === 'vip') badge = '<span class="rango-badge vip">👑 VIP</span>';
+            else if (rango === 'supervip') badge = '<span class="rango-badge super">⭐ Super VIP</span>';
+            else if (rango === 'megavip') badge = '<span class="rango-badge mega">💎 Mega VIP</span>';
+
+            const isAdmin = user === 'firebase_Oliver' || user === 'Oliver';
+            const staffRole = getUserStaffRole(user);
+            let staffBadge = '';
+            if (staffRole === 'owner') staffBadge = ' <span style="color:#f39c12; font-size:0.7rem;">(Dueño)</span>';
+            else if (staffRole === 'admin') staffBadge = ' <span style="color:#e74c3c; font-size:0.7rem;">(Admin)</span>';
+            else if (staffRole === 'helper') staffBadge = ' <span style="color:#3498db; font-size:0.7rem;">(Helper)</span>';
+
+            const isGoogleUser = user.startsWith('google_');
+            const isFirebaseUser = user.startsWith('firebase_');
+
+            let userDisplay = user;
+            if (isFirebaseUser) {
+                userDisplay = user.replace('firebase_', '');
+            } else if (isGoogleUser) {
+                userDisplay = user.replace('google_', '');
+            }
+
+            return `
+                <div class="usuario-item">
+                    <div class="user-info">
+                        <div class="user-icon">
+                            ${isFirebaseUser ? '<i class="fas fa-fire" style="color:#f39c12;"></i>' : 
+                              isGoogleUser ? '<i class="fab fa-google"></i>' : 
+                              '<i class="fas fa-user"></i>'}
+                        </div>
+                        <div>
+                            <strong>${userDisplay}</strong>
+                            ${isAdmin ? ' <span style="color:#f39c12; font-size:0.7rem;">(Staff)</span>' : ''}
+                            ${staffBadge}
+                            ${isFirebaseUser ? ' <span style="color:#f39c12; font-size:0.7rem;">(Firebase)</span>' : ''}
+                            ${isGoogleUser ? ' <span style="color:#4285F4; font-size:0.7rem;">(Google)</span>' : ''}
+                            <div style="margin-top:4px;">${badge}</div>
+                        </div>
+                    </div>
+                    ${!isAdmin && user !== 'firebase_Oliver' ? `
+                        <div class="user-actions">
+                            <button class="btn-vip" onclick="asignarRango('${user}', 'vip')" title="Dar VIP">
+                                <i class="fas fa-crown"></i>
+                            </button>
+                            <button class="btn-super" onclick="asignarRango('${user}', 'supervip')" title="Dar Super VIP">
+                                <i class="fas fa-star"></i>
+                            </button>
+                            <button class="btn-mega" onclick="asignarRango('${user}', 'megavip')" title="Dar Mega VIP">
+                                <i class="fas fa-gem"></i>
+                            </button>
+                            ${rango ? `<button class="btn-remove" onclick="asignarRango('${user}', null)" title="Quitar rango">
+                                <i class="fas fa-times"></i>
+                            </button>` : ''}
+                        </div>
+                    ` : `
+                        <div style="color: var(--text-muted); font-size:0.8rem;">
+                            <i class="fas fa-shield-alt"></i> Staff
+                        </div>
+                    `}
+                </div>
+            `;
+        }).join('');
+    }
+
+    function filterUsers() {
+        renderUsuarios();
+    }
+
+    function asignarRango(username, rango) {
+        if (!isStaff) return;
+        if (username === 'firebase_Oliver' || username === 'Oliver') return;
+        
+        setUserRango(username, rango);
+        const rangoNombre = rango === 'vip' ? 'VIP' : rango === 'supervip' ? 'Super VIP' : rango === 'megavip' ? 'Mega VIP' : 'ningún rango';
+        showToast(`✅ Rango ${rangoNombre} asignado a ${username}`, 'success');
+        renderUsuarios();
+    }
+
+    // ========================================
+    //  TOAST NOTIFICATIONS
+    // ========================================
+    function showToast(message, type = 'info') {
+        const existing = document.querySelector('.toast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'toast ' + type;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(20px)';
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
 
     // ========================================
     //  GESTIÓN DE ARCHIVOS
@@ -2570,12 +3491,12 @@
         const fileInput = document.getElementById('fileUpload');
 
         if (!fileInput.files || fileInput.files.length === 0) {
-            alert('⚠️ Selecciona un archivo para subir');
+            showToast('⚠️ Selecciona un archivo para subir', 'error');
             return;
         }
 
         if (!title || !desc) {
-            alert('⚠️ Completa Título y Descripción');
+            showToast('⚠️ Completa Título y Descripción', 'error');
             return;
         }
 
@@ -2593,12 +3514,12 @@
         const fileInput = document.getElementById('fileUpload');
 
         if (!fileInput.files || fileInput.files.length === 0) {
-            alert('⚠️ Selecciona un archivo para subir');
+            showToast('⚠️ Selecciona un archivo para subir', 'error');
             return;
         }
 
         if (!title || !desc) {
-            alert('⚠️ Completa Título y Descripción');
+            showToast('⚠️ Completa Título y Descripción', 'error');
             return;
         }
 
@@ -2632,7 +3553,7 @@
             const infoDisplay = document.getElementById('fileInfoDisplay');
             if (infoDisplay) infoDisplay.remove();
 
-            alert('✅ Plugin subido correctamente a ' + category.toUpperCase());
+            showToast(`✅ Plugin subido correctamente a ${category.toUpperCase()}`, 'success');
             renderAllFiles();
             renderDrafts();
         };
@@ -2650,12 +3571,12 @@
         const fileInput = document.getElementById('fileUpload');
 
         if (!fileInput.files || fileInput.files.length === 0) {
-            alert('⚠️ Selecciona un archivo para subir');
+            showToast('⚠️ Selecciona un archivo para subir', 'error');
             return;
         }
 
         if (!title || !desc) {
-            alert('⚠️ Completa Título y Descripción');
+            showToast('⚠️ Completa Título y Descripción', 'error');
             return;
         }
 
@@ -2688,7 +3609,7 @@
             const infoDisplay = document.getElementById('fileInfoDisplay');
             if (infoDisplay) infoDisplay.remove();
 
-            alert('📝 Borrador guardado correctamente');
+            showToast('📝 Borrador guardado correctamente', 'success');
             renderDrafts();
         };
 
@@ -2714,7 +3635,7 @@
             saveFiles(files);
             renderAllFiles();
             renderDrafts();
-            alert('✅ Borrador publicado en Gratis');
+            showToast('✅ Borrador publicado en Gratis', 'success');
         }
     }
 
@@ -2743,6 +3664,10 @@
         if (btn) btn.classList.add('active');
         
         if (tab === 'rangos') renderUsuarios();
+        if (tab === 'staffroles') {
+            renderStaffUsers();
+            updateStaffSelect();
+        }
         if (tab === 'borradores') renderDrafts();
     }
 
@@ -2759,14 +3684,32 @@
         return html;
     }
 
-    console.log('🌙 Lunatic Community v10 - CON FIREBASE COMPLETO');
+    // ========================================
+    //  EVENTOS GLOBALES
+    // ========================================
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeAuthModal();
+            closeResetModal();
+            closeReplyModal();
+        }
+    });
+
+    document.getElementById('authModal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeAuthModal();
+    });
+
+    document.getElementById('resetModal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeResetModal();
+    });
+
+    console.log('🌙 Lunatic Community v11 - COMPLETA');
     console.log('🔐 Cuenta Staff: Oliver / k936245');
-    console.log('📧 Registro con correo y contraseña disponible');
-    console.log('🔑 Inicio de sesión con Google disponible');
-    console.log('📧 Recuperación de contraseña disponible');
-    console.log('👑 Solo la cuenta staff tiene acceso al panel de administración');
-    console.log('📦 Los staff pueden subir plugins directamente');
-    console.log('👥 Los staff pueden asignar rangos VIP a usuarios');
+    console.log('👑 Roles de staff: Dueño, Administrador, Helper');
+    console.log('📢 Tablón de anuncios con comentarios');
+    console.log('💬 Comentarios y respuestas en anuncios');
+    console.log('📦 Subida de plugins y gestión de recursos');
+    console.log('👥 Gestión de rangos VIP y roles staff');
 </script>
 </body>
 </html>
