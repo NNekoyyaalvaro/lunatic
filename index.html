@@ -6,8 +6,10 @@
     <title>Lunatic Community - Recursos Minecraft</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -1217,6 +1219,13 @@
             color: var(--primary-light);
         }
 
+        .usuario-item .user-info .user-icon img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         .usuario-item .user-actions {
             display: flex;
             gap: 6px;
@@ -2190,17 +2199,110 @@
     // ========================================
     const STAFF_USER = 'Oliver';
     const STAFF_PASS = 'k936245';
-    const STORAGE_FILES = 'lunatic_files_v13';
-    const STORAGE_USERS = 'lunatic_users_v13';
-    const STORAGE_RANGOS = 'lunatic_ranks_v13';
-    const STORAGE_ANUNCIOS = 'lunatic_anuncios_v13';
-    const STORAGE_STAFF_ROLES = 'lunatic_staff_roles_v13';
+    const STORAGE_FILES = 'lunatic_files_v14';
+    const STORAGE_USERS = 'lunatic_users_v14';
+    const STORAGE_RANGOS = 'lunatic_ranks_v14';
+    const STORAGE_ANUNCIOS = 'lunatic_anuncios_v14';
+    const STORAGE_STAFF_ROLES = 'lunatic_staff_roles_v14';
 
     let currentUser = null;
     let currentUserEmail = null;
     let isStaff = false;
     let userStaffRole = null;
     let uploadedFileData = null;
+
+    // ========================================
+    //  FUNCIONES PARA REALTIME DATABASE
+    // ========================================
+    
+    // Guardar usuario en Realtime Database
+    function guardarUsuarioEnDatabase(uid, displayName, email, photoURL = '') {
+        const db = firebase.database();
+        
+        const userData = {
+            uid: uid,
+            username: displayName || email.split('@')[0],
+            email: email || '',
+            photoURL: photoURL || '',
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            lastLogin: firebase.database.ServerValue.TIMESTAMP
+        };
+        
+        return db.ref('users/' + uid).set(userData)
+            .then(() => {
+                console.log('✅ Usuario guardado en Realtime Database:', uid);
+                return true;
+            })
+            .catch((error) => {
+                console.error('❌ Error al guardar usuario:', error);
+                return false;
+            });
+    }
+
+    // Actualizar último login
+    function actualizarUltimoLogin(uid) {
+        const db = firebase.database();
+        return db.ref('users/' + uid + '/lastLogin').set(firebase.database.ServerValue.TIMESTAMP)
+            .catch((error) => {
+                console.error('❌ Error al actualizar login:', error);
+            });
+    }
+
+    // Obtener todos los usuarios de la base de datos
+    function obtenerUsuariosDeDatabase() {
+        const db = firebase.database();
+        
+        return db.ref('users').once('value')
+            .then((snapshot) => {
+                const users = snapshot.val();
+                if (!users) {
+                    return [];
+                }
+                
+                const usersArray = Object.keys(users).map(uid => ({
+                    uid: uid,
+                    ...users[uid]
+                }));
+                
+                console.log('✅ Usuarios obtenidos de DB:', usersArray.length);
+                return usersArray;
+            })
+            .catch((error) => {
+                console.error('❌ Error al obtener usuarios:', error);
+                return [];
+            });
+    }
+
+    // Buscar usuarios por nombre
+    function buscarUsuarioPorNombre(nombre) {
+        const db = firebase.database();
+        const nombreLower = nombre.toLowerCase();
+        
+        return db.ref('users').once('value')
+            .then((snapshot) => {
+                const users = snapshot.val();
+                if (!users) {
+                    return [];
+                }
+                
+                const results = [];
+                Object.keys(users).forEach(uid => {
+                    const user = users[uid];
+                    if (user.username && user.username.toLowerCase().includes(nombreLower)) {
+                        results.push({
+                            uid: uid,
+                            ...user
+                        });
+                    }
+                });
+                
+                return results;
+            })
+            .catch((error) => {
+                console.error('❌ Error al buscar usuarios:', error);
+                return [];
+            });
+    }
 
     // ========================================
     //  INICIALIZACIÓN
@@ -2216,11 +2318,20 @@
         renderStaffUsers();
         updateStaffSelect();
 
+        // Listener de autenticación con guardado en DB
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 const displayName = user.displayName || user.email.split('@')[0];
                 const email = user.email;
+                const uid = user.uid;
                 
+                // ⭐ Guardar usuario en Realtime Database
+                guardarUsuarioEnDatabase(uid, displayName, email, user.photoURL || '')
+                    .then(() => {
+                        actualizarUltimoLogin(uid);
+                    });
+                
+                // Guardar en localStorage local
                 const fbUser = 'firebase_' + displayName.replace(/[^a-zA-Z0-9]/g, '_');
                 const users = getUsers();
                 if (!users[fbUser]) {
@@ -2233,6 +2344,7 @@
                 localStorage.setItem('lunatic_session_user', fbUser);
                 localStorage.setItem('lunatic_session_email', email);
                 
+                // Verificar rol de staff
                 const staffRoles = getStaffRoles();
                 userStaffRole = staffRoles[fbUser] || null;
                 
@@ -2415,7 +2527,13 @@
 
     function getUserStaffRole(username) {
         const roles = getStaffRoles();
-        return roles[username] || null;
+        // Buscar por username o email
+        for (const [key, value] of Object.entries(roles)) {
+            if (key.includes(username) || username.includes(key.replace('firebase_', ''))) {
+                return value;
+            }
+        }
+        return null;
     }
 
     function canDeletePosts() {
@@ -2479,7 +2597,6 @@
             select.remove(1);
         }
         
-        // Obtener TODOS los usuarios registrados
         const userList = Object.keys(users);
         
         if (userList.length === 0) {
@@ -2730,6 +2847,13 @@
             .then((result) => {
                 const user = result.user;
                 const displayName = user.displayName || user.email;
+                
+                // ⭐ Guardar usuario en Realtime Database
+                guardarUsuarioEnDatabase(user.uid, displayName, user.email, user.photoURL || '')
+                    .then(() => {
+                        actualizarUltimoLogin(user.uid);
+                    });
+                
                 closeAuthModal();
                 showToast('✅ Has iniciado sesión con Google como: ' + displayName, 'success');
             })
@@ -2762,6 +2886,12 @@
                 }).catch((err) => {
                     console.warn('⚠️ No se pudo enviar correo de verificación:', err);
                 });
+
+                // ⭐ Guardar usuario en Realtime Database
+                guardarUsuarioEnDatabase(user.uid, displayName, email, user.photoURL || '')
+                    .then(() => {
+                        console.log('✅ Usuario registrado y guardado en DB');
+                    });
 
                 const fbUser = 'firebase_' + displayName;
                 const users = getUsers();
@@ -2810,6 +2940,13 @@
                 }
                 
                 const displayName = user.displayName || email.split('@')[0];
+                
+                // ⭐ Guardar usuario en Realtime Database
+                guardarUsuarioEnDatabase(user.uid, displayName, user.email, user.photoURL || '')
+                    .then(() => {
+                        actualizarUltimoLogin(user.uid);
+                    });
+                
                 const fbUser = 'firebase_' + displayName.replace(/[^a-zA-Z0-9]/g, '_');
                 
                 const users = getUsers();
@@ -2990,101 +3127,116 @@
         }
     }
 
+    // ========================================
+    //  RENDER USUARIOS CON DATABASE
+    // ========================================
     function renderUsuarios() {
-        const users = getUsers();
-        const rangos = getRangos();
         const container = document.getElementById('usuariosList');
         const searchTerm = document.getElementById('searchUser')?.value.toLowerCase() || '';
         
-        const userList = Object.keys(users);
-        if (userList.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state" style="padding: 30px;">
-                    <i class="fas fa-users"></i>
-                    <p>No hay usuarios registrados aún</p>
-                </div>
-            `;
-            return;
-        }
-
-        let filteredUsers = userList;
+        container.innerHTML = `
+            <div class="empty-state" style="padding: 20px;">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Cargando usuarios...</p>
+            </div>
+        `;
+        
+        let promise;
         if (searchTerm) {
-            filteredUsers = userList.filter(u => u.toLowerCase().includes(searchTerm));
+            promise = buscarUsuarioPorNombre(searchTerm);
+        } else {
+            promise = obtenerUsuariosDeDatabase();
         }
-
-        if (filteredUsers.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state" style="padding: 30px;">
-                    <i class="fas fa-search"></i>
-                    <p>No se encontraron usuarios</p>
-                </div>
-            `;
-            return;
-        }
-
-        container.innerHTML = filteredUsers.map(user => {
-            const rango = rangos[user] || null;
-            let badge = '<span class="rango-badge none">Sin rango</span>';
-            if (rango === 'vip') badge = '<span class="rango-badge vip">👑 VIP</span>';
-            else if (rango === 'supervip') badge = '<span class="rango-badge super">⭐ Super VIP</span>';
-            else if (rango === 'megavip') badge = '<span class="rango-badge mega">💎 Mega VIP</span>';
-
-            const isAdmin = user === 'firebase_Oliver' || user === 'Oliver';
-            const staffRole = getUserStaffRole(user);
-            let staffBadge = '';
-            if (staffRole === 'owner') staffBadge = ' <span style="color:#f39c12; font-size:0.7rem;">(Dueño)</span>';
-            else if (staffRole === 'admin') staffBadge = ' <span style="color:#e74c3c; font-size:0.7rem;">(Admin)</span>';
-
-            const isGoogleUser = user.startsWith('google_');
-            const isFirebaseUser = user.startsWith('firebase_');
-
-            let userDisplay = user;
-            if (isFirebaseUser) {
-                userDisplay = user.replace('firebase_', '');
-            } else if (isGoogleUser) {
-                userDisplay = user.replace('google_', '');
-            }
-
-            return `
-                <div class="usuario-item">
-                    <div class="user-info">
-                        <div class="user-icon">
-                            ${isFirebaseUser ? '<i class="fas fa-fire" style="color:#f39c12;"></i>' : 
-                              isGoogleUser ? '<i class="fab fa-google"></i>' : 
-                              '<i class="fas fa-user"></i>'}
-                        </div>
-                        <div>
-                            <strong>${userDisplay}</strong>
-                            ${isAdmin ? ' <span style="color:#f39c12; font-size:0.7rem;">(Staff)</span>' : ''}
-                            ${staffBadge}
-                            ${isFirebaseUser ? ' <span style="color:#f39c12; font-size:0.7rem;">(Firebase)</span>' : ''}
-                            ${isGoogleUser ? ' <span style="color:#4285F4; font-size:0.7rem;">(Google)</span>' : ''}
-                            <div style="margin-top:4px;">${badge}</div>
-                        </div>
+        
+        promise.then((usersFromDB) => {
+            const rangos = getRangos();
+            const staffRoles = getStaffRoles();
+            
+            if (usersFromDB.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding: 20px;">
+                        <i class="fas fa-users"></i>
+                        <p>${searchTerm ? 'No se encontraron usuarios' : 'No hay usuarios registrados aún'}</p>
                     </div>
-                    ${!isAdmin && user !== 'firebase_Oliver' ? `
-                        <div class="user-actions">
-                            <button class="btn-vip" onclick="asignarRango('${user}', 'vip')" title="Dar VIP">
-                                <i class="fas fa-crown"></i>
-                            </button>
-                            <button class="btn-super" onclick="asignarRango('${user}', 'supervip')" title="Dar Super VIP">
-                                <i class="fas fa-star"></i>
-                            </button>
-                            <button class="btn-mega" onclick="asignarRango('${user}', 'megavip')" title="Dar Mega VIP">
-                                <i class="fas fa-gem"></i>
-                            </button>
-                            ${rango ? `<button class="btn-remove" onclick="asignarRango('${user}', null)" title="Quitar rango">
-                                <i class="fas fa-times"></i>
-                            </button>` : ''}
+                `;
+                return;
+            }
+            
+            usersFromDB.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+            
+            container.innerHTML = usersFromDB.map(user => {
+                const username = user.username || 'Usuario';
+                const email = user.email || '';
+                const uid = user.uid;
+                
+                const rango = rangos[username] || null;
+                let badge = '<span class="rango-badge none">Sin rango</span>';
+                if (rango === 'vip') badge = '<span class="rango-badge vip">👑 VIP</span>';
+                else if (rango === 'supervip') badge = '<span class="rango-badge super">⭐ Super VIP</span>';
+                else if (rango === 'megavip') badge = '<span class="rango-badge mega">💎 Mega VIP</span>';
+                
+                let staffRole = null;
+                Object.keys(staffRoles).forEach(key => {
+                    if (key.includes(username) || username.includes(key.replace('firebase_', ''))) {
+                        staffRole = staffRoles[key];
+                    }
+                });
+                
+                let staffBadge = '';
+                if (staffRole === 'owner') staffBadge = ' <span style="color:#f39c12; font-size:0.7rem;">(Dueño)</span>';
+                else if (staffRole === 'admin') staffBadge = ' <span style="color:#e74c3c; font-size:0.7rem;">(Admin)</span>';
+                
+                const isCurrentUser = user.uid === firebase.auth().currentUser?.uid;
+                
+                return `
+                    <div class="usuario-item">
+                        <div class="user-info">
+                            <div class="user-icon">
+                                ${user.photoURL ? 
+                                    `<img src="${user.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />` :
+                                    '<i class="fas fa-user"></i>'
+                                }
+                            </div>
+                            <div>
+                                <strong>${username}</strong>
+                                ${isCurrentUser ? ' <span style="color:#2ecc71; font-size:0.7rem;">(Tú)</span>' : ''}
+                                ${staffBadge}
+                                <div style="font-size:0.7rem; color:var(--text-muted);">${email}</div>
+                                <div style="margin-top:4px;">${badge}</div>
+                            </div>
                         </div>
-                    ` : `
-                        <div style="color: var(--text-muted); font-size:0.8rem;">
-                            <i class="fas fa-shield-alt"></i> Staff
-                        </div>
-                    `}
+                        ${staffRole !== 'owner' && !isCurrentUser ? `
+                            <div class="user-actions">
+                                <button class="btn-vip" onclick="asignarRango('${username}', 'vip')" title="Dar VIP">
+                                    <i class="fas fa-crown"></i>
+                                </button>
+                                <button class="btn-super" onclick="asignarRango('${username}', 'supervip')" title="Dar Super VIP">
+                                    <i class="fas fa-star"></i>
+                                </button>
+                                <button class="btn-mega" onclick="asignarRango('${username}', 'megavip')" title="Dar Mega VIP">
+                                    <i class="fas fa-gem"></i>
+                                </button>
+                                ${rango ? `<button class="btn-remove" onclick="asignarRango('${username}', null)" title="Quitar rango">
+                                    <i class="fas fa-times"></i>
+                                </button>` : ''}
+                            </div>
+                        ` : `
+                            <div style="color: var(--text-muted); font-size:0.8rem;">
+                                <i class="fas fa-shield-alt"></i> ${isCurrentUser ? 'Tú' : 'Staff'}
+                            </div>
+                        `}
+                    </div>
+                `;
+            }).join('');
+        }).catch((error) => {
+            console.error('Error al cargar usuarios:', error);
+            container.innerHTML = `
+                <div class="empty-state" style="padding: 20px;">
+                    <i class="fas fa-exclamation-triangle" style="color:#e74c3c;"></i>
+                    <p>Error al cargar usuarios. Intenta de nuevo.</p>
                 </div>
             `;
-        }).join('');
+        });
     }
 
     function filterUsers() {
@@ -3093,7 +3245,7 @@
 
     function asignarRango(username, rango) {
         if (!isStaff) return;
-        if (username === 'firebase_Oliver' || username === 'Oliver') return;
+        if (username === 'Oliver' || username === 'firebase_Oliver') return;
         
         setUserRango(username, rango);
         const rangoNombre = rango === 'vip' ? 'VIP' : rango === 'supervip' ? 'Super VIP' : rango === 'megavip' ? 'Mega VIP' : 'ningún rango';
@@ -3540,14 +3692,15 @@
         if (e.target === e.currentTarget) closeResetModal();
     });
 
-    console.log('🌙 Lunatic Community v13 - FINAL');
+    console.log('🌙 Lunatic Community v14 - CON REALTIME DATABASE');
     console.log('🔐 Cuenta Staff: Oliver / k936245');
     console.log('👑 Roles de staff: Dueño, Administrador');
     console.log('📢 Tablón de anuncios con Markdown completo');
     console.log('📦 Subida de plugins y gestión de recursos');
     console.log('👥 Gestión de rangos VIP y roles staff');
     console.log('🗑️ Eliminar anuncios y recursos (Admin/Dueño)');
-    console.log('👤 Todos los usuarios aparecen en el select automáticamente');
+    console.log('👤 Todos los usuarios se guardan en Realtime Database');
+    console.log('🔍 Búsqueda de usuarios desde la base de datos');
 </script>
 </body>
 </html>
